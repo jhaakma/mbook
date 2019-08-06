@@ -12,12 +12,9 @@
                 <!-- 
                 <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72" />
                  -->
-                <h1 class="h3 mb-3 font-weight-normal">Signup Here</h1>
-                <div th:if="${errorMessage}" th:text="|${errorMessage}|">
-                    
-                </div>
-                <div th:if="${param.logout}">
-                    You have been logged out.
+                <h1 class="h3 mb-3 font-weight-normal">Create a New Account</h1>
+                <div class="login-message" >
+                    <div th:if="${errorMessage}" th:text="|${errorMessage}|"></div>
                 </div>
                 <label for="inputUsername" class="sr-only">Username</label>
                 <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Username" required="" />

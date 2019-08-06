@@ -11,20 +11,22 @@
                     <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72" />
                  -->
                  
-                <div th:if="${successMessage}" th:text="${successMessage}"></div>
-                <div th:if="${param.error}">Invalid email and password.</div>
-                <div th:if="${param.logout}">You have been logged out.</div>
+                <h1 class="h3 mb-3 font-weight-normal">Sign In</h1>
+                 
+                <div class="login-message">
+	                <div th:if="${successMessage}" th:text="${successMessage}"></div>
+	                <div th:if="${param.error}">Invalid email and password.</div>
+	                <div th:if="${param.logout}">You have been logged out.</div>
+                </div>
                 
-                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-
                 <label for="inputEmail" class="sr-only">Email address</label>
                 <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required="" />
                 <label for="inputPassword" class="sr-only">Password</label>
                 <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="" />
-                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">Sign In</button>
             </form>
             <form class="form-signin" th:action="@{/signup}" method="get">
-                <button class="btn btn-md btn-success btn-block" type="Submit">Signup Here</button>
+                <button class="btn btn-md btn-success btn-block" type="Submit">Create a New Account</button>
             </form>
         </div>
     </body>

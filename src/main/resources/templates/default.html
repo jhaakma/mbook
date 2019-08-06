@@ -21,9 +21,9 @@
             
                 <!-- Contents -->
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    <!-- <li class="nav-item active">
                         <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                    </li>
+                    </li> -->
                     <li class="nav-item active">
                         <a class="nav-link" href="/videos">Videos <span class="sr-only"></span></a>
                     </li>
@@ -34,14 +34,12 @@
                 </ul>
                 
                 <!--  Login/Logout -->
+                
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item" th:if="${currentUser == null}"><a class="nav-link" th:href="@{/login}">Log in</a></li>
+                    
                     <li class="nav-item" th:if="${currentUser}">
-                        <a class="nav-link" th:text="|${currentUser.fullname}|"></a>
-                        </li>
-                    <li class="nav-item" th:if="${currentUser}">
-                        
-                        <a class="nav-link" th:href="@{/logout}">Log out</a>
+                        <a class="nav-link" th:href="@{/logout}" th:text="|${currentUser.fullname} - Log out|"></a>
                     </li>
 
                 </ul>

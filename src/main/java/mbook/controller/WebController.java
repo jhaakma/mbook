@@ -93,7 +93,7 @@ public class WebController {
     public String createNewUser( @Valid User user, Model model) {
         User userExists = userService.findUserByEmail(user.getEmail());
         if (userExists != null) {
-            model.addAttribute("errorMessage", "A user with this email already exists.");
+            model.addAttribute("errorMessage", "A user with that email already exists.");
             return "signup";
         } else {
             userService.saveUser(user);

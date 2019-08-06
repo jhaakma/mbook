@@ -19,7 +19,10 @@ body {
 	padding-bottom: 40px;
 }
 
-
+.login-message {
+	padding-bottom: 10px;
+	color: red;
+}
 
 .form-signin {
   width: 100%;

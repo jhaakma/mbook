@@ -11,12 +11,20 @@
     
        
     <div layout:fragment="content">
+    
+
+       
 	   <div th:if="not ${param.id}">
-	       <h1 style="text-align: center">Latest Videos: </h1>
+	       <h1 style="text-align: center">Latest Videos:</h1>
 	   </div>
 	    <th:block th:each="video,i : ${videos}">
 	       <div th:insert="fragments/video.html :: streamable(video=${video}, id=${i.index})"></div>
 	    </th:block>      
+	    
+        <div th:if="${param.id}">
+            <div style="text-align: center; padding-top: 20px"> <a href="/videos" >Go Back</a></div>
+        </div>
+	    
     </div>
     </body>
 </html>
