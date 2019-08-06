@@ -1,0 +1,16 @@
+.column {
+  float: left;
+}
+
+.left {
+  width: 20%;
+}
+
+.right {
+  width: 80%;
+}
+
+.title-screen {
+  text-align: center;
+  background-color: grey;
+}

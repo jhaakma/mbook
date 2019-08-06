@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+    <div th:fragment="streamable(video, id)">
+    
+        <!-- Video Title -->
+	    <h2 style="text-align: center">
+	       <a th:href="@{/videos(id=${id})}"  th:text="${video.name}"></a>
+	    </h2>
+	    
+	    <!-- Emdeded Streamable video -->
+	    <div style="width: 100%; height: 0px; position: relative; padding-bottom: 40%;">
+	        <iframe 
+	            th:src="${video.url}" 
+	            frameborder="0" width="100%" height="100%" 
+	            allowfullscreen style="width: 100%; height: 100%; position: absolute;"
+	        ></iframe>
+	    </div>  
+	    
+    </div>
+
+</html>

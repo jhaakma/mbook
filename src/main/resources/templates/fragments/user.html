@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+    <div th:fragment="showUser(user, id)">
+    
+        <!-- Username -->
+        <h2 style="text-align: center" th:text="${user.fullname}"></h2>
+        
+        <!-- Emdeded Streamable user -->
+        <div style="text-align: center" th:text="${user.email}"></div>
+        
+    </div>
+
+</html>

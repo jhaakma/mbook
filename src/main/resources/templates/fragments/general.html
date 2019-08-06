@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <div th:fragment="header">
+        <h1 class="title-screen" th:text="${siteName}"></h1>
+    </div> 
+    
+    <div th:fragment="siteMenu">
+        <h3>Menu:</h3>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/videos">Videos</a></li>
+            <li><a href="/userlist">Users</a></li>
+        </ul>
+    </div>
+
+</html>
