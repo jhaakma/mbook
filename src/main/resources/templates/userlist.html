@@ -1,23 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html 
+    xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}"
+>
     <head>
-        <link rel="stylesheet" th:href="@{../css/general.css}"/>
-        <title th:text="|${siteName}: Users|"></title>
+        <title>Users</title>
     </head>
     <body >
     <header th:insert="fragments/general.html :: header"> </header>
-    <div class="row">
-      <div class="column left">
-            <div th:insert="fragments/general.html :: siteMenu"></div>
-      </div>
-      <div class="column right">
-	        <div id="main-content"> 
-	            <h1 style="text-align: center">Current Users: </h1>
-	            <th:block th:each="user,i : ${users}">
-	               <div th:insert="fragments/user.html :: showUser(user=${user}, id=${i.index})"></div>
-	            </th:block>
-	        </div>
-       </div>
+    <div layout:fragment="content">
+        <div id="main-content"> 
+            <h1 style="text-align: center">Current Users: </h1>
+            <th:block th:each="user,i : ${users}">
+               <div th:insert="fragments/user.html :: showUser(user=${user}, id=${i.index})"></div>
+            </th:block>
+        </div>
     </div>
         
         

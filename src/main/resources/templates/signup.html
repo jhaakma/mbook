@@ -4,7 +4,9 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}"
 >
     <head>
-        <title>Signup</title>
+        <title>Create a New Account</title>
+        <link rel="stylesheet" href="/css/login-form.css" />
+
     </head>
     <body>
         <div layout:fragment="content">
@@ -13,15 +15,21 @@
                 <img class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72" />
                  -->
                 <h1 class="h3 mb-3 font-weight-normal">Create a New Account</h1>
-                <div class="login-message" >
+                <div class="error-message" >
                     <div th:if="${errorMessage}" th:text="|${errorMessage}|"></div>
                 </div>
+                
                 <label for="inputUsername" class="sr-only">Username</label>
-                <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Username" required="" />
+                <input type="text" name="username" id="username" class="form-control" placeholder="Username" required="" />
+                
+                <label for="inputUsername" class="sr-only">Email</label>
+                <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email" required="" />
+                
                 <label for="inputPassword" class="sr-only">Password</label>
                 <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required="" />
-                <label for="inputFullname" class="sr-only">Full Name</label>
-                <input type="text" name="fullname" id="fullName" class="form-control" placeholder="Fullname" required="" />
+                
+
+                
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Sign Up</button>
             </form>
             <form class="form-signin" th:action="@{/login}" method="get">

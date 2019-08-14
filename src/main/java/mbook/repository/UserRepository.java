@@ -7,5 +7,7 @@ import mbook.model.User;
 
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
-    public User findByEmail(String email);
+    public User findByEmailIgnoreCase(String email);
+    public User findByUsernameIgnoreCase(String email);
+    
 }

@@ -2,11 +2,9 @@ package mbook.service;
 
 import java.util.ArrayList;
 
-import org.springframework.stereotype.Service;
-
 import mbook.model.Video;
 
-@Service
+
 public class VideoServiceImpl implements VideoService {
 
     private static ArrayList<Video> videos = new ArrayList<Video>();

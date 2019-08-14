@@ -4,8 +4,7 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}"
 >
     <head>
-        
-        <title th:text="|${siteName}: Videos|"></title>
+        <title>Videos</title>
     </head>
     <body>
     
@@ -22,7 +21,7 @@
 	    </th:block>      
 	    
         <div th:if="${param.id}">
-            <div style="text-align: center; padding-top: 20px"> <a href="/videos" >Go Back</a></div>
+            <div style="text-align: center; padding-top: 20px"> <a href="/videos" >Back to Videos</a></div>
         </div>
 	    
     </div>

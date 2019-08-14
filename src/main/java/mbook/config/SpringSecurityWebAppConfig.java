@@ -2,6 +2,7 @@ package mbook.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -10,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+
+import mbook.model.Role;
 
 
 @EnableWebSecurity
@@ -21,7 +24,11 @@ public class SpringSecurityWebAppConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     CustomiseAuthenticationSuccessHandler customiseAuthenticationSuccessHandler;
 
-    @Autowired UserDetailsService userDetailsService;
+    @Autowired 
+    UserDetailsService userDetailsService;
+    
+    @Autowired
+    Environment env;
     
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -35,17 +42,35 @@ public class SpringSecurityWebAppConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
+            //Public pages
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/signup").permitAll()
-                .antMatchers("/dashboard/**").hasAuthority("ADMIN").anyRequest()
-                .authenticated().and().csrf().disable().formLogin().successHandler(customiseAuthenticationSuccessHandler)
+                .antMatchers("/favicon.ico").permitAll()
+            //Admin pages
+                //.antMatchers("/mbook.api/*").hasAuthority(Role.Type.ADMIN.getValue())
+                .antMatchers("/dashboard/**").hasAuthority(Role.Type.ADMIN.getValue())
+            //Private pages
+                .anyRequest().authenticated()
+            
+            // Login
+            .and().formLogin()
+                .successHandler(customiseAuthenticationSuccessHandler)
                 .loginPage("/login").failureUrl("/login?error=true")
-                .usernameParameter("email")
+                .usernameParameter("username")
                 .passwordParameter("password")
-                .and().logout()
+            
+            //Logout
+            .and().logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                .logoutSuccessUrl("/login?logout=true").and().exceptionHandling();
+                .logoutSuccessUrl("/login?logout=true")
+                .deleteCookies("JSESSIONID")
+            
+            .and().rememberMe()
+                .key(env.getProperty("custom.rememberMeKey"))
+            
+            //API
+            .and().csrf().disable();//ignoringAntMatchers("/mbook.api/**");
     }
     
     @Override
