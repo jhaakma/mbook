@@ -93,3 +93,7 @@ local.properties
 .classpath
 
 # End of https://www.gitignore.io/api/eclipse
+
+#Project
+src/main/resources/application.properties
+

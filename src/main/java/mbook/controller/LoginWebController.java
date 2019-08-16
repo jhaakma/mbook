@@ -1,17 +1,25 @@
 package mbook.controller;
 
 
+import java.util.Calendar;
+import java.util.Locale;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.context.request.WebRequest;
 
+import mbook.event.OnRegistrationCompleteEvent;
 import mbook.model.Role;
 import mbook.model.User;
+import mbook.model.VerificationToken;
 import mbook.service.UserService;
 
 /**
@@ -21,8 +29,15 @@ import mbook.service.UserService;
  */
 @Controller
 public class LoginWebController extends AbstractWebController {
+   
+    @Autowired
+    private MessageSource messageSource;
+    
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
     
     @GetMapping("/login")
     public String login(Model model) {
@@ -39,33 +54,77 @@ public class LoginWebController extends AbstractWebController {
     public String createNewUser( 
             @Valid User user, 
             BindingResult bindingResult,
+            WebRequest request,
             Model model
     ) {
+        Locale locale = request.getLocale();
+        
+        //validation errors
         if ( bindingResult.hasErrors() ) {
-            String errorMsg = String.format("Invalid %s: %s",
+            String errorMsg = String.format(messageSource.getMessage("signup.error", null, locale),
                     bindingResult.getFieldError().getField(),
                     bindingResult.getFieldError().getDefaultMessage()
             );
-            model.addAttribute("errorMessage", errorMsg);// "Invalid value: " + bindingResult.getFieldError().getRejectedValue() ); 
+            model.addAttribute("errorMessage", errorMsg);
             return "/signup";
         }
         
+        //email exists
         User userEmailExists = userService.findUserByEmail(user.getEmail());
+        if (userEmailExists != null) {
+            model.addAttribute("errorMessage", messageSource.getMessage("signup.emailExists", null, locale) );
+            return "signup";
+        } 
+        
+        //user exists
         User userUsernameExists = userService.findUserByUsername(user.getUsername());
-        if (userEmailExists != null || userUsernameExists != null ) {
-            if (userEmailExists != null) {
-                model.addAttribute("errorMessage", "A user with that email already exists.");
-                return "signup";
-            } else {
-                model.addAttribute("errorMessage", "A user with that username already exists.");
-                return "signup";
-            }
-        } else {
-            userService.createUser(user, Role.Type.USER.getValue() );
-            model.addAttribute("successMessage", "Registered. Successfully. You may now log in.");
-            model.addAttribute("user", new User());
-            return "login";
+        if ( userUsernameExists != null ) {
+            model.addAttribute("errorMessage", messageSource.getMessage("signup.userExists", null, locale) );
+            return "signup";
         }
+        
+        //everything good, create user and send verification email
+        User createdUser = userService.createUser(user, Role.Type.USER.getValue() );
+        try {
+            String appUrl = request.getContextPath();
+            eventPublisher.publishEvent(
+                new OnRegistrationCompleteEvent(createdUser, request.getLocale(), appUrl)
+            );
+        } catch (Exception me) {
+            model.addAttribute("errorMessage", me.getMessage());
+            return "signup";
+        }
+        
+        model.addAttribute("successMessage", messageSource.getMessage("signup.success", null, locale));
+        return "login";
+        
     }
     
+    @GetMapping("/confirmRegistration")
+    public String confirmRegistration(
+            WebRequest request, 
+            Model model
+    ) {
+        Locale locale = request.getLocale();
+        String token = request.getParameter("token");
+      
+         
+        VerificationToken verificationToken = userService.getVerificationToken(token);
+        if (verificationToken == null) {
+            model.addAttribute("errorMessage", messageSource.getMessage("signup.tokenInvalid", null, locale));
+            return "login";
+        }
+         
+        User user = verificationToken.getUser();
+        Calendar cal = Calendar.getInstance();
+        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+            model.addAttribute("errorMessage", messageSource.getMessage("signup.tokenExpired", null, locale));
+            return "login";
+        } 
+         
+        user.setEnabled(true); 
+        userService.saveUser(user);
+        model.addAttribute("successMessage",  messageSource.getMessage("signup.registrationSuccess", null, locale) );
+        return "login"; 
+    }
 }

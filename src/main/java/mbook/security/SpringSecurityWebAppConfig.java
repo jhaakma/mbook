@@ -1,4 +1,4 @@
-package mbook.config;
+package mbook.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -22,7 +22,7 @@ public class SpringSecurityWebAppConfig extends WebSecurityConfigurerAdapter {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    CustomiseAuthenticationSuccessHandler customiseAuthenticationSuccessHandler;
+    CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Autowired 
     UserDetailsService userDetailsService;
@@ -33,6 +33,7 @@ public class SpringSecurityWebAppConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
+            
             .userDetailsService(userDetailsService)
             .passwordEncoder(bCryptPasswordEncoder);
 
@@ -43,6 +44,7 @@ public class SpringSecurityWebAppConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
             //Public pages
+                .antMatchers("/confirmRegistration*").permitAll()
                 .antMatchers("/").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/signup").permitAll()
@@ -55,7 +57,7 @@ public class SpringSecurityWebAppConfig extends WebSecurityConfigurerAdapter {
             
             // Login
             .and().formLogin()
-                .successHandler(customiseAuthenticationSuccessHandler)
+                .successHandler(customAuthenticationSuccessHandler)
                 .loginPage("/login").failureUrl("/login?error=true")
                 .usernameParameter("username")
                 .passwordParameter("password")

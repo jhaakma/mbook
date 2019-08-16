@@ -4,24 +4,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import lombok.NonNull;
 import mbook.model.GameCharacter;
 import mbook.model.Role;
 import mbook.model.User;
+import mbook.model.VerificationToken;
 import mbook.repository.RoleRepository;
 import mbook.repository.UserRepository;
+import mbook.repository.VerificationTokenRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,7 +29,9 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
- 
+    @Autowired
+    private VerificationTokenRepository tokenRepository;
+    
     public User findUserByEmail(String email) {
         return userRepository.findByEmailIgnoreCase(email);
     }
@@ -49,9 +48,9 @@ public class UserServiceImpl implements UserService {
         return (ArrayList<User>) userRepository.findAll();
     }
     
-    public void createUser(User user, ArrayList<String> roles) {
+    public User createUser(User user, ArrayList<String> roles) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setEnabled(true);
+        //user.setEnabled(true);
         ArrayList<Role> userRoles = new ArrayList<Role>();
         for ( String role : roles ) {
             Role userRole = roleRepository.findByRole(role);
@@ -59,11 +58,16 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setRoles(new HashSet<>(userRoles));
-        userRepository.save(user);
+        return userRepository.save(user);
     }
     
-    public void createUser(User user, String role) {
-        createUser(user, new ArrayList<String>(Arrays.asList(role)));
+    public User saveUser(User user) {
+        return userRepository.save(user);
+    }
+    
+    
+    public User createUser(User user, String role) {
+        return createUser(user, new ArrayList<String>(Arrays.asList(role)));
     }
     
     public void deleteUser( String email ) {
@@ -102,25 +106,26 @@ public class UserServiceImpl implements UserService {
             user = userRepository.findByUsernameIgnoreCase(username);
         }
         
-        if(user != null) {
-            List<GrantedAuthority> authorities = getUserAuthority(user.getRoles());
+        if(user != null && user.isEnabled() ) {
+            List<GrantedAuthority> authorities = (List<GrantedAuthority>) user.getAuthorities();
             return buildUserForAuthentication(user, authorities);
         } else {
             throw new UsernameNotFoundException("username not found");
         }
     }
     
-    private List<GrantedAuthority> getUserAuthority(Set<Role> userRoles) {
-        Set<GrantedAuthority> roles = new HashSet<>();
-        userRoles.forEach((role) -> {
-            roles.add(new SimpleGrantedAuthority(role.getRole()));
-        });
-
-        List<GrantedAuthority> grantedAuthorities = new ArrayList<>(roles);
-        return grantedAuthorities;
-    }
-    
     private UserDetails buildUserForAuthentication(User user, List<GrantedAuthority> authorities) {
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), authorities);
+    }
+
+    @Override
+    public void createVerificationToken(User user, String token) {
+        VerificationToken myToken = new VerificationToken(token, user);
+        tokenRepository.save(myToken);
+    }
+
+    @Override
+    public VerificationToken getVerificationToken(String VerificationToken) {
+        return tokenRepository.findByToken(VerificationToken);
     }
 }

@@ -2,16 +2,13 @@ package mbook.service;
 
 import java.util.ArrayList;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
 import mbook.model.GameCharacter;
 import mbook.model.User;
 import mbook.repository.GameCharacterRepository;
 @Service
-@Slf4j
 public class GameCharacterService {
 
     @Autowired

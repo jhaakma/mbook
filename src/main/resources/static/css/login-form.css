@@ -15,15 +15,22 @@
   padding: 10px;
   margin: auto;
 }
-.form-signin .checkbox {
-  font-weight: 400;
+
+.form-signin .rememberMe {
+	padding-top: 10px;
 }
+
+.form-signin .checkbox {
+  vertical-align: middle;
+}
+
 .form-signin .form-control {
   position: relative;
   box-sizing: border-box;
   height: auto;
   padding: 10px;
   font-size: 16px;
+  text-align: center;
 }
 .form-signin .form-control:focus {
   z-index: 2;
