@@ -29,6 +29,7 @@ public abstract class AbstractWebController {
     @Autowired 
     private PageService pageService;
     
+    
     @ModelAttribute
     public void populateModel(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -37,7 +38,6 @@ public abstract class AbstractWebController {
         if ( !(auth instanceof AnonymousAuthenticationToken)) {
             model.addAttribute("loggedIn", true);
         }
-        model.addAttribute( "siteName", env.getProperty("custom.siteName") );
         model.addAttribute( "pages", pageService.getAuthorisedPages(authorities) );
 
         
