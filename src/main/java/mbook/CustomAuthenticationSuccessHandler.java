@@ -1,4 +1,4 @@
-package mbook.security;
+package mbook;
 
 import java.io.IOException;
 
@@ -13,11 +13,15 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler
+        implements AuthenticationSuccessHandler {
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-            Authentication authentication) throws IOException, ServletException { // set our response to OK status
+    public void onAuthenticationSuccess(
+            HttpServletRequest request, 
+            HttpServletResponse response, 
+            Authentication authentication
+    ) throws IOException, ServletException { // set our response to OK status
         response.setStatus(HttpServletResponse.SC_OK);
 
         for (GrantedAuthority auth : authentication.getAuthorities()) {
@@ -28,5 +32,4 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             }
         }
     }
-
 }

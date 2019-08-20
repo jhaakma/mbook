@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -41,7 +42,11 @@ public class UserServiceImpl implements UserService {
     }
     
     public User findUserById(String id) {
-        return userRepository.findById(id).get();
+        Optional<User> user = userRepository.findById(id);
+        if ( user.isPresent() ) {
+           return user.get(); 
+        }
+        return null;
     }
     
     public ArrayList<User> getUsers() {
@@ -92,11 +97,24 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
     
-    public void removeCharacter( User user, GameCharacter character ) {
-        user.getGameCharacters().remove(character);
+    
+    public void removeCharacter( User user, GameCharacter gameCharacter ) {
+        user.getGameCharacters().remove(gameCharacter);
         userRepository.save(user);
     }
     
+    public GameCharacter findCharacter(User user, GameCharacter gameCharacter ) {
+        for (GameCharacter c : user.getGameCharacters() ) {
+            if ( 
+                    c != null &&
+                    c.getName().equalsIgnoreCase(gameCharacter.getName())
+                    
+            ) {
+                return c;
+            }
+        }
+        return null;
+    }
     
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

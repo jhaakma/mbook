@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html 
+    xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}"
+>
+    <head>
+        <title th:text="#{errorpage.title}"></title>
+    </head>
+    <body  class="text-center">
+    <div layout:fragment="content">
+        <h2 th:if="not ${message}" th:text="#{errorPage.message}"></h2>
+        <h2 th:text="${message}"></h2>
+        <a class="nav-item" th:href="@{/}" method="get" th:text="#{home.return}"></a>
+    </div>
+    </body>
+</html>

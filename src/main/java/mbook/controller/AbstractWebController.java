@@ -29,7 +29,6 @@ public abstract class AbstractWebController {
     @Autowired 
     private PageService pageService;
     
-    
     @ModelAttribute
     public void populateModel(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -39,11 +38,12 @@ public abstract class AbstractWebController {
             model.addAttribute("loggedIn", true);
         }
         model.addAttribute( "pages", pageService.getAuthorisedPages(authorities) );
-
         
         if ( !model.containsAttribute("currentUser") ) {
             User user = userService.findUserByEmail(auth.getName());
             model.addAttribute("currentUser", user);
         }
     }
+    
+
 }

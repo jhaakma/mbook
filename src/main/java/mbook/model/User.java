@@ -28,7 +28,6 @@ import mbook.validation.UsernameConstraint;
 @Document(collection = "user")
 public class User implements UserDetails {
 
-  
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -36,7 +35,7 @@ public class User implements UserDetails {
 
     @Indexed(unique = true)
     @NotNull
-    @Size(min = 3, max = 12, message = "{user.usernameSize}")
+    @Size(min = 3, max = 20, message = "{user.username-size}")
     @UsernameConstraint
     private String username;
 
@@ -45,7 +44,7 @@ public class User implements UserDetails {
     private String email;
 
     @NotNull
-    @Size(min = 4, max = 50, message = "{user.passwordSize}")
+    @Size(min = 4, max = 50, message = "{user.password-size}")
     private String password;
 
     private boolean enabled = false;

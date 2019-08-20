@@ -21,7 +21,8 @@ public interface UserService extends UserDetailsService {
     public void changePassword(User user, String password);
     public Boolean checkPassword(User user, String password);
     public void addCharacter( User user, GameCharacter character );
-    public void removeCharacter( User user, GameCharacter character );
+    public GameCharacter findCharacter(User user, GameCharacter gameCharacter );
+    public void removeCharacter( User user, GameCharacter gameCharacter );
     void createVerificationToken(User user, String token);
     VerificationToken getVerificationToken(String VerificationToken);
 }

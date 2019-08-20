@@ -2,14 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}">
     <head>
-        <title>Home</title>
+        <title th:text="#{home.title}"></title>
     </head>
-	<body >
-	
+	<body class="text-center">
 	<div layout:fragment="content">
         <div id="main-content">
-	       <h1 th:text="|Welcome to #{siteName}!|"></h1>
-	       <div>This site is under construction.</div>
+	       <h1 th:text="#{splash.header}"></h1>
+	       <a th:text="#{splash.sub}"></a>
 	    </div>
 	</div>
 

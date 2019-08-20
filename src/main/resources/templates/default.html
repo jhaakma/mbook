@@ -28,21 +28,27 @@
 			<!-- Contents Menu - Lefthand side -->
 			<ul class="navbar-nav mr-auto">
 				<th:block th:each="page,i : ${pages}">
-	                <li class="nav-item active">
-		                <a class="nav-link" th:href="${page.href}" th:text="${page.title}">
-	                        <span class="sr-only"></span>
-	                    </a>
+			        <li th:if="${page.showInMenu}" class="nav-item active">
+                        <a class="nav-link" th:href="${page.href}" th:text="${page.title}">
+                            <span class="sr-only"></span>
+                        </a>
                     </li>
+
 	            </th:block>
 			</ul>
 			<!--  Login/Logout - Righthand side -->
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item" th:if="${currentUser == null}"><a
-					class="nav-link" th:href="@{/login}">Log in</a></li>
-
-				<li class="nav-item" th:if="${currentUser}"><a class="nav-link"
-					th:href="@{/logout}" th:text="|${currentUser.username} - Log out|"></a>
-				</li>
+				<li class="nav-item" th:if="${currentUser == null}">
+				    <a class="nav-link" th:href="@{/login}" th:text="#{menu.login}"></a>
+			    </li>
+			    
+				<form th:action="@{/logout}" method="post" th:if="${currentUser}">
+                    <button 
+                        class="btn-link nav-link"
+                        type="submit" 
+                        th:text="|${currentUser.username} - #{menu.logout}|"
+                    ></button>
+                </form>
 			</ul>
 		</div>
 	</nav>

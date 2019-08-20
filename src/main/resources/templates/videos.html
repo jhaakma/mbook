@@ -4,26 +4,23 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}"
 >
     <head>
-        <title>Videos</title>
+        <title th:text="#{videos.title}"></title>
     </head>
-    <body>
-    
-       
+    <body class="text-center" >
     <div layout:fragment="content">
-    
-
-       
 	   <div th:if="not ${param.id}">
-	       <h1 style="text-align: center">Latest Videos:</h1>
+	       <h1 th:text="#{videos.latest}"></h1>
 	   </div>
 	    <th:block th:each="video,i : ${videos}">
-	       <div th:insert="fragments/video.html :: streamable(video=${video}, id=${i.index})"></div>
+	       <div th:insert="fragments/video.html :: 
+	           streamable(video=${video}, id=${i.index})">
+	       </div>
 	    </th:block>      
-	    
         <div th:if="${param.id}">
-            <div style="text-align: center; padding-top: 20px"> <a href="/videos" >Back to Videos</a></div>
+            <div style="padding-top: 20px">
+                <a href="/videos" th:text="#{videos.back}"></a>
+            </div>
         </div>
-	    
     </div>
     </body>
 </html>

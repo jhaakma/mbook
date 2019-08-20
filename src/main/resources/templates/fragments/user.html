@@ -3,10 +3,10 @@
     <div th:fragment="showUser(user, id)">
     
         <!-- Username -->
-        <h2 style="text-align: center" th:text="${user.username}"></h2>
+        <h2><a th:href="|\profile?username=${user.username}|" th:text="${user.username}"></a></h2>
         
         <!-- Emdeded Streamable user -->
-        <div style="text-align: center" th:text="${user.email}"></div>
+        <div th:text="${user.email}"></div>
         
     </div>
 

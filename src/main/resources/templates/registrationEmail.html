@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<!-- 
+    Required Variables:
+        - username
+        - url
+-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+    <h3 th:text="#{signup.email.heading( ${username} )}"></h3>
+    <div th:utext="#{signup.email.message( ${url} )}"></div>
+</body>
+</html>

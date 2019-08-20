@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html 
+    xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}"
+>
+    <head>
+        <title th:text="#{character.title(${character.name})}"></title>
+    </head>
+    <body class="text-center">
+    <div layout:fragment="content">
+        <h2 th:text="#{character.title(${character.name})}"></h2>
+        <div th:if="${owner}">
+            <a 
+                th:href="|/profile?username=${owner.username}|" 
+                th:text="#{character.owner(${owner.username})}"
+            ></a>
+        </div> 
+        
+    </div>
+    </body>
+</html>

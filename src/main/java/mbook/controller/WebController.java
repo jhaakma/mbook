@@ -5,13 +5,17 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.WebRequest;
 
+import mbook.model.GameCharacter;
+import mbook.model.User;
 import mbook.model.Video;
+import mbook.service.GameCharacterService;
 import mbook.service.UserService;
 import mbook.service.VideoService;
 
@@ -20,8 +24,12 @@ public class WebController extends AbstractWebController {
 
     @Autowired
     VideoService videoService;
+    
     @Autowired
-    private UserService userDetailsService;
+    GameCharacterService gameCharacterService;
+    
+    @Autowired
+    private UserService userService;
     
     @GetMapping("/")
     public String home() {
@@ -47,10 +55,9 @@ public class WebController extends AbstractWebController {
         
     @GetMapping("/userlist")
     public String userlist(Model model) {    
-        model.addAttribute("users", userDetailsService.getUsers());
+        model.addAttribute("users", userService.getUsers());
         return "userlist";
     }
-    
     
     
     @GetMapping("/dashboard")
@@ -60,4 +67,55 @@ public class WebController extends AbstractWebController {
         
         return "dashboard";
     }
+    
+    @GetMapping("/character")
+    public String character( 
+        WebRequest request,
+        Model model 
+    ) {
+        
+        String id = request.getParameter("id");
+        if ( id != null ) {
+            GameCharacter gameCharacter = gameCharacterService.findCharacterById(id);
+            String ownerId = gameCharacter.getOwnerId();
+            User owner;
+            if (ownerId != null ) {
+                owner = userService.findUserById(ownerId);
+                
+            } else {
+                owner = new User();
+                owner.setUsername("(User doesn't exist");
+                owner.setEmail("");
+            }
+            model.addAttribute("owner", owner);
+            model.addAttribute("character", gameCharacter);
+
+            return "character";
+        }
+        return "error";
+                
+    }
+    
+    @GetMapping("/profile")
+    public String profile(
+        WebRequest request, 
+        Model model
+    ) {
+        String username = request.getParameter("username");
+        User user;
+        if ( username != null ) {
+            user = userService.findUserByUsername(username);
+        } else {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            user = userService.findUserByEmail(auth.getName());
+        }
+        
+
+        if ( user != null ) {
+            model.addAttribute(user);
+        }
+        return "profile";
+    }
+    
+    
 }

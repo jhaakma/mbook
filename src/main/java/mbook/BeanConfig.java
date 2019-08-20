@@ -65,9 +65,8 @@ public class BeanConfig implements WebMvcConfigurer  {
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("smtp.gmail.com");
-        mailSender.setPort(587);
-
+        mailSender.setHost(env.getProperty("custom.mail.host"));
+        mailSender.setPort(Integer.parseInt(env.getProperty("custom.mail.port")));
         mailSender.setUsername(env.getProperty("custom.mail.user"));
         mailSender.setPassword(env.getProperty("custom.mail.password"));
 
@@ -84,7 +83,6 @@ public class BeanConfig implements WebMvcConfigurer  {
     public MessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource
           = new ReloadableResourceBundleMessageSource();
-         
         messageSource.setBasename("classpath:messages/messages");
         messageSource.setDefaultEncoding("UTF-8");
         return messageSource;
@@ -110,5 +108,4 @@ public class BeanConfig implements WebMvcConfigurer  {
         interceptor.setParamName("lang");
         registry.addInterceptor(interceptor);
     }
-    
 }

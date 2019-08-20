@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html 
+    xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}"
+>
+    <head>
+        <title th:text="#{profile.title(${user.username})}"></title>
+    </head>
+    <body class="text-center">
+    <div layout:fragment="content">
+        <h2 th:text="#{profile.title(${user.username})}"></h2>
+        
+        <h5 th:text="#{profile.characters}"></h5>
+        <th:block th:each="character,i : ${user.gameCharacters}" > 
+            <div>
+            <a th:href="|\character?id=${character.id}|" th:text="${character.name}"></a>
+            </div>
+        </th:block>
+        
+    </div>
+    </body>
+</html>
