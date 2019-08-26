@@ -1,39 +1,115 @@
+@font-face {
+	font-family: "pelagiad";
+	src: url("/fonts/pelagiad/Pelagiad.ttf") format("truetype");
+}
 
 
 body {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: top;
-  padding-top: 100px;
-  padding-bottom: 40px;
+    padding-top: 60px; 
+	background-color: black;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-align: center;
+	align-items: top;
+	padding-bottom: 20px;
+	font-family:"pelagiad";
+	color: #9e926f;
+} 
+
+a{
+	color: #8fb2d8;
+}
+a:hover {
+	color: cornflowerblue;
+}
+ul {
+	padding-inline-start: 20px;
+}
+
+li {
+	white-space: nowrap;
+	padding-right: 10px;
 }
 
 .main-content {
-	padding-top: 40px;
-	padding-bottom: 40px;
+	width: 100%;
+	padding: 10px;
 }
 
+.sidebar {
+	padding-left: 10px;
+	padding-top: 10px;
+	padding-bottom:10px;
+}
+
+.navbar {
+	flex-wrap: unset;
+    border-bottom-style: ridge;
+    border-width: 10px;
+    border-color: #837857;
+    background: black;
+}
+
+.thin-border {
+    background: black;
+    border-style: solid;
+    border-width: 4px;
+    border-color: #837857;	
+    height: -webkit-fill-available;
+    min-height: -webkit-fill-available;  
+    overflow:hidden; 
+    padding: 10px;
+    position: relative;
+}
+
+.scroll-box {
+    height: -webkit-fill-available;
+    min-height: -webkit-fill-available; 
+    overflow:hidden; 
+    overflow-y:auto;
+    outline-offset: 10px;
+    min-width: 100px;
+}
+
+.fit-content {
+	width: fit-content;
+}
+
+.fill-content {
+	width: 100%;
+}
+
+.bottom-text {
+	position: absolute;
+	bottom: 10px;
+	width: 100%;
+}
+
+
 .video {
-    border-style: outset;
-    padding: 15px;
-    text-align: left;
+	text-align: center;
+    outline-offset: 30px;
 }
 
 .description {
 	padding: 15px;
-	text-align: -webkit-center;
 	width: auto;
 }
-
 
 .btn-link {
     border: none;
     outline: none;
     background: none;
     cursor: pointer;
-    color: #0000EE;
+    color: #8fb2d8;
     padding: 0;
     font-family: inherit;
     font-size: inherit;
+    width: -webkit-fill-available;
+    text-align: left;
+}
+
+.subheading {
+	/* padding: 5px; */
+	white-space: nowrap;
 }

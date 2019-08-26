@@ -1,48 +1,24 @@
 package mbook.model;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import lombok.Getter;
 import lombok.Setter;
+import mbook.morrowind.model.GameClass;
 
 @Getter @Setter
-@Document(collection = "character")
-@CompoundIndex(name="name_owner", def = "{'ownerId':1, 'name':1}", unique=true)
 public class GameCharacter {
-
-    @Id 
-    private String id;
-    
-    @NotNull
+    @Indexed
     private String name;
-    @NotNull
+    @NotNull @Valid
     private GameClass gameClass;
     @NotNull
     private Integer gold;
-
     @NotNull
-    private Integer level;
-    private String ownerId;
+    private Integer level; 
 
-    /*
-     * @Override public int hashCode() { return id.hashCode(); }
-     */
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof GameCharacter) {
-            GameCharacter thatCharacter = (GameCharacter) obj;
-            return this.id.equals(thatCharacter.id);
-        }
-        return false;
-    }
-    
-    public Boolean isNewCharacterValid() {
-        return ( 
-                this.getName() != null
-        );
-    }
 }

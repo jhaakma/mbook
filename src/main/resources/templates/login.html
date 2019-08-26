@@ -21,14 +21,20 @@
                        alt="" width="72" height="72" 
                     />-->
 	                <h1 class="h3 mb-3 font-weight-normal" th:text="#{login.title}"></h1>
-	                <div class="login-message">
-	                   <div th:if="${successMessage}" th:text="${successMessage}"></div>
-	                </div>
-	                <div class="error-message">
-	                   <div th:if="${errorMessage}" th:text="${errorMessage}"></div>
-	                   <div th:if="${param.logout}" th:text="#{login.loggedOut}"></div>
-	                   <div th:if="${param.error}" th:text="|#{login.failed} (${session[SPRING_SECURITY_LAST_EXCEPTION].message})|"></div>
-	                   <!-- <div th:if="${param.error}">Invalid username or password</div> -->
+	                
+                   
+                    <div th:if="${successMessage}" >
+                       <div class="login-message" th:text="${successMessage}"></div>
+                    </div>
+                    
+                    <div th:if="${errorMessage}">
+                        <div class="error-message" th:text="${errorMessage}"></div>
+                    </div>
+                    <div th:if="${param.logout}">
+                       <div class="error-message" th:text="#{login.loggedOut}"></div>
+                    </div>
+                    <div th:if="${param.error}">
+                       <div class="error-message"  th:text="|#{login.failed} (${session[SPRING_SECURITY_LAST_EXCEPTION].message})|"></div>
                     </div>
 	                <label for="inputUsername" class="sr-only" th:text="#{login.username}"></label>
 	                <input 
@@ -51,7 +57,7 @@
 	            </form>
 	            <form class="form-signin" th:action="@{/signup}" method="get">
 	                <button 
-	                   class="btn btn-md btn-success btn-block" type="Submit" 
+	                   class="btn btn-md btn-primary btn-block" type="Submit" 
 	                   th:text="#{signup.title}"
 	                ></button>
 	            </form>

@@ -4,18 +4,24 @@
     xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}"
 >
     <head>
-        <title th:text="#{character.title(${character.name})}"></title>
+        <title th:text="#{character.title(${character.gameCharacter.name})}"></title>
     </head>
-    <body class="text-center">
-    <div layout:fragment="content">
-        <h2 th:text="#{character.title(${character.name})}"></h2>
-        <div th:if="${owner}">
-            <a 
-                th:href="|/profile?username=${owner.username}|" 
-                th:text="#{character.owner(${owner.username})}"
-            ></a>
-        </div> 
-        
+    <body >
+    <div layout:fragment="sidebar" class="sidebar">
+	    <div class="scroll-box thin-border fit-box">
+	        <div th:insert="fragments/classInfo.html 
+	            :: showClassInfo(class=${character.gameCharacter.gameClass})"
+	        ></div>
+	    </div>
+    </div>
+    <div layout:fragment="content"  class="thin-border scroll-box">
+        <h2 th:text="#{character.title(${character.gameCharacter.name})}"></h2>
+        <h5 class="subheading">
+            <span th:text="#{character.owner}"></span>
+            <a  th:href="|/profile?username=${owner.username}|" 
+                th:text="${owner.username}"></a>
+        </h5>
+        <div  th:insert="fragments/description.html :: showDescription(title=#{character.bio}, description=${character.bio})"></div>
     </div>
     </body>
 </html>

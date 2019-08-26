@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import mbook.model.GameCharacter;
 import mbook.model.Role;
 import mbook.model.User;
 import mbook.model.VerificationToken;
@@ -92,28 +91,15 @@ public class UserServiceImpl implements UserService {
     }
     
 
-    public void addCharacter( User user, GameCharacter character ) {
-        user.getGameCharacters().add(character);
+    public void saveCharacter( User user, String characterName ) {
+        user.getGameCharacters().add(characterName);
         userRepository.save(user);
     }
     
     
-    public void removeCharacter( User user, GameCharacter gameCharacter ) {
-        user.getGameCharacters().remove(gameCharacter);
+    public void removeCharacter( User user, String characterName ) {
+        user.getGameCharacters().remove( characterName);
         userRepository.save(user);
-    }
-    
-    public GameCharacter findCharacter(User user, GameCharacter gameCharacter ) {
-        for (GameCharacter c : user.getGameCharacters() ) {
-            if ( 
-                    c != null &&
-                    c.getName().equalsIgnoreCase(gameCharacter.getName())
-                    
-            ) {
-                return c;
-            }
-        }
-        return null;
     }
     
     @Override

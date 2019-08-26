@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<div th:fragment="showProfile(user)">
+        <h2 th:text="#{profile.title(${user.username})}"></h2>
+                
+        <!-- Emdeded Streamable user -->
+        <div th:if="${user.username == currentUser.username}">
+            <h5 th:text="|#{profile.email} ${user.email}|"></h5>
+        </div>
+        
+        
+        <h5 th:text="#{profile.characters}"></h5>
+        <ul>
+        <th:block th:each="character,i : ${user.gameCharacters}" > 
+            <li>
+            <a th:href="|\character?user=${user.username}&character=${character}|" th:text="${character}"></a>
+            </li>
+        </th:block>
+        </ul>
+</div>
+
+</html>

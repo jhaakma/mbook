@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<div th:fragment="showClassInfo(class)">
+    <h3 th:text="#{character.class.title(${character.gameCharacter.gameClass.name})}"></h3>
+      
+    <div class="row">
+        <div class="ml-3 col-xs-3">
+         <!-- Major Skills -->
+         <h5 th:text="#{character.class.majorSkills}"></h5>
+         <ul>
+             <th:block th:each="skill,i : ${character.gameCharacter.gameClass.majorSkills}">
+                 <li><div th:text="${skill}"></div></li>
+             </th:block>
+             </ul>
+         </div>
+             
+     <div class="ml-3 col-xs-3">
+             <!-- Minor Skills -->
+             <h5 th:text="#{character.class.minorSkills}"></h5>
+             <ul >
+                 <th:block th:each="skill,i : ${character.gameCharacter.gameClass.minorSkills}">
+                     <li><div th:text="${skill}"></div></li>
+                 </th:block>
+             </ul>
+         </div>
+     </div>      
+</div>
+
+</html>

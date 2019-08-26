@@ -7,12 +7,14 @@ public class UsernameValidator implements
 ConstraintValidator<UsernameConstraint, String> {
 
   @Override
-  public void initialize(UsernameConstraint contactNumber) {
+  public void initialize(UsernameConstraint userName) {
   }
 
   @Override
-  public boolean isValid(String usernameField,
-    ConstraintValidatorContext cxt) {
+  public boolean isValid(
+      String usernameField,
+      ConstraintValidatorContext cxt
+  ) {
       return usernameField.matches("[a-zA-Z0-9_]*");
   }
 

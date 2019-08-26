@@ -3,11 +3,8 @@
     <div th:fragment="showUser(user, id)">
     
         <!-- Username -->
-        <h2><a th:href="|\profile?username=${user.username}|" th:text="${user.username}"></a></h2>
-        
-        <!-- Emdeded Streamable user -->
-        <div th:text="${user.email}"></div>
-        
+        <a th:href="|\userlist?user=${user.username}|" th:text="${user.username}"></a>
+
     </div>
 
 </html>

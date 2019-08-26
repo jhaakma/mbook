@@ -10,12 +10,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
-import mbook.model.GameCharacter;
 import mbook.model.User;
 import mbook.model.Video;
-import mbook.service.GameCharacterService;
+import mbook.morrowind.model.CharacterRecord;
+import mbook.service.CharacterRecordService;
 import mbook.service.UserService;
 import mbook.service.VideoService;
 
@@ -26,7 +27,7 @@ public class WebController extends AbstractWebController {
     VideoService videoService;
     
     @Autowired
-    GameCharacterService gameCharacterService;
+    CharacterRecordService characterRecordService;
     
     @Autowired
     private UserService userService;
@@ -42,19 +43,23 @@ public class WebController extends AbstractWebController {
         String id = request.getParameter("id");
         if ( id != null ) {
             Video vid = videoService.getVideo(id);
-            if ( vid != null ) {
-                ArrayList<Video> vids = new ArrayList<Video>();
-                vids.add(vid);
-                model.addAttribute("videos", vids);
-            }
+                model.addAttribute("video", vid);
         } else {
-            model.addAttribute("videos", videoService.getVideos() );
+            
         }
+        model.addAttribute("videos", videoService.getVideos() );
         return "videos";
     }
         
     @GetMapping("/userlist")
-    public String userlist(Model model) {    
+    public String userlist(
+        HttpServletRequest request, 
+        Model model  
+    ) {    
+        String username = request.getParameter("user");
+        if ( username != null ) {
+            model.addAttribute("user", userService.findUserByUsername(username));
+        }
         model.addAttribute("users", userService.getUsers());
         return "userlist";
     }
@@ -69,31 +74,24 @@ public class WebController extends AbstractWebController {
     }
     
     @GetMapping("/character")
-    public String character( 
+    public String character(
         WebRequest request,
-        Model model 
+        Model model,
+        @RequestParam(value="character") String characterName,
+        @RequestParam(value="user") String username
     ) {
-        
-        String id = request.getParameter("id");
-        if ( id != null ) {
-            GameCharacter gameCharacter = gameCharacterService.findCharacterById(id);
-            String ownerId = gameCharacter.getOwnerId();
-            User owner;
-            if (ownerId != null ) {
-                owner = userService.findUserById(ownerId);
-                
-            } else {
-                owner = new User();
-                owner.setUsername("(User doesn't exist");
-                owner.setEmail("");
-            }
-            model.addAttribute("owner", owner);
-            model.addAttribute("character", gameCharacter);
 
-            return "character";
+        User owner = userService.findUserByUsername(username);
+        if ( owner == null ) {
+            return "error";
         }
-        return "error";
-                
+        CharacterRecord characterRecord = characterRecordService.findCharacterByOwnerAndName(owner, characterName);
+        if ( characterRecord == null ) {
+            return "error";
+        }
+        model.addAttribute("owner", owner);
+        model.addAttribute("character", characterRecord);
+        return "character";
     }
     
     @GetMapping("/profile")
@@ -117,5 +115,9 @@ public class WebController extends AbstractWebController {
         return "profile";
     }
     
+    @GetMapping("/test")
+    public String test() {
+        return "test";
+    }
     
 }

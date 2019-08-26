@@ -50,8 +50,7 @@ public class User implements UserDetails {
     private boolean enabled = false;
     @DBRef
     private Set<Role> roles;
-    @DBRef(lazy = true)
-    private Set<GameCharacter> gameCharacters = new HashSet<>();
+    private Set<String> gameCharacters = new HashSet<>();
 
     
     public User() { 
