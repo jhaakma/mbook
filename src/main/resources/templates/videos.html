@@ -1,46 +1,47 @@
 <!DOCTYPE html>
-<html 
-    xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}"
->
-    <head>
-        <title th:text="#{videos.title}"></title>
-    </head>
-    <body style="">
-    
-     <div class="sidebar" layout:fragment="sidebar">
-	     <div class="scroll-box thin-border fit-box">
-	           <h2 class="subheading" th:text="#{videos.latest}"></h2>
-	        <ul>
-	            <th:block th:each="video,i : ${videos}">
-	                <li><a th:href="@{/videos(id=${i.index})}"  th:text="${video.name}"></a></li> 
-	            </th:block>  
-	        </ul>  
-        </div>
-    </div>
-    
-    <div layout:fragment="content">
-        <div class="video" >
-             <div th:if="${video}">
-            <div th:insert="fragments/video.html :: 
-               streamable(video=${video}, id=${video.index})">
-           </div>
-        </div>
-        <div th:if="not ${video}">
-           <th:block th:each="video,i : ${videos}">
-           <div th:insert="fragments/video.html :: 
-               streamable(video=${video}, id=${i.index})">
-           </div>
-        </th:block>   
-        </div>
-     
-        <div th:if="${param.id}">
-            <div class="bottom-text">
-                <a href="/videos" th:text="#{videos.back}"></a>
-            </div>
-        </div>   
-        </div>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{default}">
+<head>
+<title th:text="#{videos.title}"></title>
+</head>
+<body style="">
 
-    </div>
-    </body>
+	<div layout:fragment="sidebar">
+		<h2 class="subheading" th:text="#{videos.latest}"></h2>
+		<ul>
+			<th:block th:each="video,i : ${videos}">
+				<li><a th:href="@{/videos(id=${i.index})}"
+					th:text="${video.name}"></a></li>
+			</th:block>
+		</ul>
+	</div>
+
+	<div layout:fragment="content">
+		<div class="video">
+			<div th:if="${video}">
+				<div
+					th:insert="fragments/video.html :: 
+               streamable(video=${video}, id=${video.index})">
+				</div>
+			</div>
+			<div th:if="not ${video}">
+				<th:block th:each="video,i : ${videos}">
+					<div
+						th:insert="fragments/video.html :: 
+               streamable(video=${video}, id=${i.index})">
+					</div>
+				</th:block>
+			</div>
+
+			<div th:if="${param.id}">
+				<div >
+					<a href="/videos" th:text="#{videos.back}"></a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</body>
 </html>

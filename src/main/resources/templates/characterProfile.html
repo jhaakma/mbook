@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{default}">
+<head>
+<title th:text="#{character.title(${character.name})}"></title>
+</head>
+<body>
+	<div layout:fragment="sidebar">
+		<h4 class="subheading" th:text="|Characters|"></h4>
+		<ul>
+			<th:block th:each="character,i : ${owner.gameCharacters}">
+				<li><a th:href="|\character?user=${owner.username}&character=${character}|"
+					th:text="${character}"></a>
+			    </li>
+			</th:block>
+		</ul>
+	</div>
+	<div layout:fragment="content">
+
+		<div class="row">
+
+			<div class="col">
+				<h2 th:text="#{character.title(${character.name})}"></h2>
+				<h6 th:text="|${character.sex} ${character.race}|"></h6>
+				<h6 class="subheading">
+					<span th:text="#{character.owner}"></span> <a
+						th:href="|/profile?username=${owner.username}|"
+						th:text="${owner.username}"></a>
+				</h6>
+
+				<h6 th:text="|Gold: ${character.gold}|"></h6>
+
+				<div th:insert="fragments/description.html 
+				    :: showDescription(title=#{character.bio}, 
+				    description=${character.bio})"
+				></div>
+
+			</div>
+			<div class="col-md-auto sidebar">
+
+				<div class="thin-border">
+					<div class="profile-img-container">
+						<img src="images/pikachu.png">
+					</div>
+
+				</div>
+
+				<div class="thin-border">
+					<div
+						th:insert="fragments/classInfo.html 
+                  :: showClassInfo(character=${character})"></div>
+				</div>
+
+			</div>
+		</div>
+
+
+
+
+	</div>
+</body>
+</html>

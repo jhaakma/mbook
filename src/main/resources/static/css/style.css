@@ -1,8 +1,18 @@
+:root {
+    --header-color:#aba38a;
+    --normal-color:#9e926f;
+    --link-color-normal: #8fb2d8;
+    /* --link-color-active */
+}
+
 @font-face {
 	font-family: "pelagiad";
 	src: url("/fonts/pelagiad/Pelagiad.ttf") format("truetype");
 }
 
+html {
+	height: 100%;
+}
 
 body {
     padding-top: 60px; 
@@ -13,62 +23,100 @@ body {
 	align-items: top;
 	padding-bottom: 20px;
 	font-family:"pelagiad";
-	color: #9e926f;
+	color: var(--normal-color);
+	height: 100%; 
+	width: 100%;
+	
 } 
 
 a{
-	color: #8fb2d8;
+	color: var(--link-color-normal);
 }
 a:hover {
 	color: cornflowerblue;
 }
 ul {
-	padding-inline-start: 20px;
+	padding-inline-start: 0px;
+	list-style: none;
+	
 }
 
 li {
 	white-space: nowrap;
 	padding-right: 10px;
+	
 }
 
-.main-content {
-	width: 100%;
-	padding: 10px;
+h1, h2, h3, h4, h5 {
+	color: var(--header-color);
 }
-
-.sidebar {
-	padding-left: 10px;
-	padding-top: 10px;
-	padding-bottom:10px;
-}
-
 .navbar {
-	flex-wrap: unset;
-    border-bottom-style: ridge;
-    border-width: 10px;
-    border-color: #837857;
+	border-image-source: url(border.png);
+    border-image-slice: 4;
+    border-image-width:  0 0 6px;
+    border-image-repeat: repeat;
+    border-bottom-style: solid;
+    border-width: 4px;
     background: black;
 }
 
 .thin-border {
-    background: black;
+	border-image-source: url(border.png);
+	border-image-slice: 4;
+    border-image-width: 4px;
+    border-image-repeat: repeat;
     border-style: solid;
-    border-width: 4px;
-    border-color: #837857;	
-    height: -webkit-fill-available;
-    min-height: -webkit-fill-available;  
-    overflow:hidden; 
+    border-color: var(--normal-color);; 
     padding: 10px;
-    position: relative;
+    margin-bottom:10px;
+    
+scroll-margin: 50px;
+}
+
+.divider {
+	border-image-width:  0 0 2px;
+    border-image-slice: 1!important;
+    padding:0!important;
+    
+    margin-top: 10px;
+}
+
+.main-content {
+    width: 100%;
+    padding: 10px;
+    display:flex;
+}
+@media(max-width: 575.998px) {
+	.main-content {
+	    flex-direction:column-reverse;
+	}
+	.sidebar {
+	   height: fit-content!important;
+    }
+}
+
+@media(min-width: 576px) {
+	.sidebar {
+        flex: 0 1 auto;
+
+    }
+}
+
+.sidebar {
+    min-width: fit-content;
+    margin-right: 10px;
+}
+
+.content {
+    flex:1 1 auto;
+    padding-right: 20px;
 }
 
 .scroll-box {
-    height: -webkit-fill-available;
-    min-height: -webkit-fill-available; 
     overflow:hidden; 
     overflow-y:auto;
     outline-offset: 10px;
-    min-width: 100px;
+    height:100%;
 }
 
 .fit-content {
@@ -85,6 +133,10 @@ li {
 	width: 100%;
 }
 
+.profile-img-container {
+	margin: auto;
+    width: 50%;
+}
 
 .video {
 	text-align: center;

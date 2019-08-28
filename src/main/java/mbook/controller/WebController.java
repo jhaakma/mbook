@@ -1,22 +1,28 @@
 package mbook.controller;
 
-import java.util.ArrayList;
-
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.context.support.ServletContextResource;
 
+import mbook.model.GameCharacter;
 import mbook.model.User;
 import mbook.model.Video;
-import mbook.morrowind.model.CharacterRecord;
-import mbook.service.CharacterRecordService;
+import mbook.service.GameCharacterService;
 import mbook.service.UserService;
 import mbook.service.VideoService;
 
@@ -27,11 +33,17 @@ public class WebController extends AbstractWebController {
     VideoService videoService;
     
     @Autowired
-    CharacterRecordService characterRecordService;
+    GameCharacterService gameCharacterService;
     
     @Autowired
-    private UserService userService;
+    UserService userService;
     
+    @Autowired
+    ResourceLoader resourceLoader;
+    
+    /*
+     * @Autowired ServletContext servletContext;
+     */
     @GetMapping("/")
     public String home() {
         return "index";
@@ -85,13 +97,13 @@ public class WebController extends AbstractWebController {
         if ( owner == null ) {
             return "error";
         }
-        CharacterRecord characterRecord = characterRecordService.findCharacterByOwnerAndName(owner, characterName);
-        if ( characterRecord == null ) {
+        GameCharacter gameCharacter = gameCharacterService.findCharacterByOwnerAndName(owner, characterName);
+        if ( gameCharacter == null ) {
             return "error";
         }
         model.addAttribute("owner", owner);
-        model.addAttribute("character", characterRecord);
-        return "character";
+        model.addAttribute("character", gameCharacter);
+        return "characterProfile";
     }
     
     @GetMapping("/profile")
@@ -105,19 +117,19 @@ public class WebController extends AbstractWebController {
             user = userService.findUserByUsername(username);
         } else {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            user = userService.findUserByEmail(auth.getName());
+            user = userService.findUserByUsername(auth.getName());
         }
         
 
         if ( user != null ) {
-            model.addAttribute(user);
+            model.addAttribute("user", user);
         }
-        return "profile";
+        return "userProfile";
     }
     
-    @GetMapping("/test")
-    public String test() {
-        return "test";
-    }
+
+    
+    
+    
     
 }

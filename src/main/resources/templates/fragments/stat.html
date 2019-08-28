@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<div th:fragment="showStats(table)">
+
+	<table style="width:100%; ">
+	    <tbody>
+	    <tr th:each="row,i : ${table}">
+	        <td><span th:text="${row.key}" style="white-space: nowrap;"></h6></span>
+	        <td><span th:text="${row.value}" style="padding-left:15px; text-align:right"></span></td>
+	    </tr>
+	    </tbody>
+	</table>
+</div>
+</html>

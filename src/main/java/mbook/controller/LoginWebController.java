@@ -144,12 +144,6 @@ public class LoginWebController extends AbstractWebController {
     
     private String getURLBase(HttpServletRequest request) throws MalformedURLException {
          return ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString();
-        /*
-         * URL requestURL = new URL(request.getRequestURL().toString()); String port =
-         * requestURL.getPort() == -1 ? "" : ":" + requestURL.getPort(); return
-         * requestURL.getProtocol() + "://" + requestURL.getHost() + port;
-         */
-
     }
     
 }

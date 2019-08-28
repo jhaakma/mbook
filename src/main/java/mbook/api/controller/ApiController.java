@@ -1,7 +1,6 @@
 package mbook.api.controller;
 
 import java.lang.reflect.Field;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,15 +25,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import mbook.model.GameCharacter;
 import mbook.model.User;
-import mbook.morrowind.model.CharacterRecord;
-import mbook.service.CharacterRecordService;
+import mbook.service.GameCharacterService;
 import mbook.service.UserService;
 
 @RestController
 public class ApiController {
 
     @Autowired
-    CharacterRecordService characterRecordService;
+    GameCharacterService gameCharacterService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -42,42 +40,35 @@ public class ApiController {
     
    
     @GetMapping("/api/characters")
-    public List<CharacterRecord> getCharacters() {
-        return characterRecordService.getCharacters();
+    public List<GameCharacter> getCharacters() {
+        return gameCharacterService.getCharacters();
     }
     
     @GetMapping("/api/characters/{name}")
-    public CharacterRecord getMyCharacter(
+    public ResponseEntity<Object> getMyCharacter(
             @PathVariable String name
     ) {
         User user = getLoggedInUser();
-        
-        CharacterRecord thisCharacter = characterRecordService.findCharacterByOwnerAndName(user, name);
-        return thisCharacter;
+        if ( user != null) {
+            GameCharacter thisCharacter = gameCharacterService.findCharacterByOwnerAndName(user, name);
+            return new ResponseEntity<Object>(thisCharacter, HttpStatus.ACCEPTED);
+        } else {
+            return new ResponseEntity<Object>("User not found", HttpStatus.BAD_REQUEST);
+        }
     }
     
     //Create new game character
     @PostMapping("/api/characters")
     public ResponseEntity<Object> createCharacter(
-        @Valid @RequestBody CharacterRecord characterRecord
-    )
-    {
+        @Valid @RequestBody GameCharacter gameCharacter
+    ) {
         User user = getLoggedInUser();
         if ( user == null ) {
             return new ResponseEntity<>("No Character", HttpStatus.BAD_REQUEST);
         }
-        GameCharacter newGameCharacter = characterRecord.getGameCharacter();
-        if ( newGameCharacter == null ) {
-            return new ResponseEntity<>("Must include character data", HttpStatus.BAD_REQUEST);
-        }
-        CharacterRecord existingCharacter = characterRecordService.findCharacterByOwnerAndName(user, newGameCharacter.getName());
-        if ( existingCharacter != null ) {
-            return new ResponseEntity<>("Character already exists", HttpStatus.BAD_REQUEST);
-        }
-        
-        characterRecord.setOwner(user.getUsername());
-        characterRecordService.saveCharacter(user, characterRecord);
-        return new ResponseEntity<>(createSuccessMessage(newGameCharacter.getName(), "created"), HttpStatus.OK);
+        gameCharacter.setOwner(user.getUsername());
+        gameCharacterService.saveCharacter(user, gameCharacter);
+        return new ResponseEntity<>(createSuccessMessage(gameCharacter.getName(), "created"), HttpStatus.OK);
     }
     
     @DeleteMapping("/api/characters/{name}")
@@ -88,12 +79,12 @@ public class ApiController {
         if (user == null) {
             return new ResponseEntity<>("User is null", HttpStatus.BAD_REQUEST);
         }
-        CharacterRecord existingCharacter = characterRecordService.findCharacterByOwnerAndName(user, name);
+        GameCharacter existingCharacter = gameCharacterService.findCharacterByOwnerAndName(user, name);
         if (existingCharacter == null) {
             return new ResponseEntity<>("Character not found", HttpStatus.NOT_FOUND);
         }
-
-        characterRecordService.deleteCharacter(user, name);
+ 
+        gameCharacterService.deleteCharacter(user, name);
         
         return new ResponseEntity<>(createSuccessMessage(name, "deleted"), HttpStatus.OK);
     }
@@ -111,19 +102,18 @@ public class ApiController {
     ) {
         User user = getLoggedInUser();
         
-        CharacterRecord existingCharacter = 
-                characterRecordService.findCharacterByOwnerAndName(user, name);
+        GameCharacter existingCharacter = 
+                gameCharacterService.findCharacterByOwnerAndName(user, name);
         if ( existingCharacter == null ) {
             return new ResponseEntity<>("Character not found", HttpStatus.NOT_FOUND);
         }
 
-        if ( !name.equals(existingCharacter.getGameCharacter().getName())) {
+        if ( !name.equals(existingCharacter.getName())) {
             return new ResponseEntity<>("Character Name does not match", HttpStatus.BAD_REQUEST);
         }
         gameCharacter.setName(name);
         existingCharacter.setOwner(user.getUsername());
-        existingCharacter.setGameCharacter(gameCharacter);
-        characterRecordService.saveCharacter(user, existingCharacter);
+        gameCharacterService.saveCharacter(user, existingCharacter);
         return new ResponseEntity<>(createSuccessMessage(name, "updated"), HttpStatus.OK);
     }
     
@@ -137,31 +127,22 @@ public class ApiController {
             @PathVariable String name
     ) { 
         User user = getLoggedInUser();
-        CharacterRecord existingCharacter = 
-                characterRecordService.findCharacterByOwnerAndName(user, name);
+        GameCharacter existingCharacter = 
+                gameCharacterService.findCharacterByOwnerAndName(user, name);
         try {
             updates.forEach((k, v) -> {
                 // use reflection to get field k on manager and set it to value k
-                 Field field = ReflectionUtils.findField(CharacterRecord.class, k);
-                 if ( field.getName().equals("gameCharacter") ) {
-                     GameCharacter newCharacter = objectMapper.convertValue(v, GameCharacter.class);
-                     newCharacter.setName(name);
-                     existingCharacter.setGameCharacter(newCharacter); 
-                     
-                 } else {
-                     ReflectionUtils.makeAccessible(field);
-                     ReflectionUtils.setField(field, existingCharacter, v);
-                 }
+                 Field field = ReflectionUtils.findField(GameCharacter.class, k);
+                 ReflectionUtils.makeAccessible(field);
+                 ReflectionUtils.setField(field, existingCharacter, v);
              });
         } catch (Exception e) {
             return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.BAD_REQUEST);
         }
         
-        characterRecordService.saveCharacter(user, existingCharacter);
+        gameCharacterService.saveCharacter(user, existingCharacter);
         return new ResponseEntity<>(createSuccessMessage(name, "patched"), HttpStatus.OK);
     }
-    
-    
     
     
     private String createSuccessMessage(String name, String command) {
@@ -172,11 +153,8 @@ public class ApiController {
     }
     
     
-    
-    
-    
     private User getLoggedInUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return userService.findUserByEmail(auth.getName());
+        return userService.findUserByUsername(auth.getName());
     }
 }

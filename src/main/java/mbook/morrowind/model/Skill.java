@@ -2,7 +2,6 @@ package mbook.morrowind.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.ToString;
 
 @AllArgsConstructor
 public enum Skill {

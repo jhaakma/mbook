@@ -40,7 +40,7 @@ public abstract class AbstractWebController {
         model.addAttribute( "pages", pageService.getAuthorisedPages(authorities) );
         
         if ( !model.containsAttribute("currentUser") ) {
-            User user = userService.findUserByEmail(auth.getName());
+            User user = userService.findUserByUsername(auth.getName());
             model.addAttribute("currentUser", user);
         }
     }

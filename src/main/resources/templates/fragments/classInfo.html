@@ -1,29 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
-<div th:fragment="showClassInfo(class)">
-    <h3 th:text="#{character.class.title(${character.gameCharacter.gameClass.name})}"></h3>
-      
-    <div class="row">
-        <div class="ml-3 col-xs-3">
-         <!-- Major Skills -->
-         <h5 th:text="#{character.class.majorSkills}"></h5>
-         <ul>
-             <th:block th:each="skill,i : ${character.gameCharacter.gameClass.majorSkills}">
-                 <li><div th:text="${skill}"></div></li>
-             </th:block>
-             </ul>
-         </div>
-             
-     <div class="ml-3 col-xs-3">
-             <!-- Minor Skills -->
-             <h5 th:text="#{character.class.minorSkills}"></h5>
-             <ul >
-                 <th:block th:each="skill,i : ${character.gameCharacter.gameClass.minorSkills}">
-                     <li><div th:text="${skill}"></div></li>
-                 </th:block>
-             </ul>
-         </div>
-     </div>      
+<div th:fragment="showClassInfo(character)">
+	<h3 th:text="#{character.gameClass.title(${character.className})}"></h3>
+
+	<div class="row">
+		<div class="col-sm" style="padding-right:0px;">
+		    <div class="thin-border"  style="height:100%">
+                <h5 th:text="#{character.gameClass.attributes}"></h5>
+                <ul>
+                    <li>
+                    <span> Strength:</span>
+                    <span  style="padding-left:30px; float:right"> 30</span>
+                    </li>
+                </ul>
+            </div>
+		</div>
+		<div class="col-sm" style="padding-left:0px; margin-left:-2px;">
+		  <div class="thin-border" style="height:100%">
+                  <!-- Major Skills -->
+	            <h5 th:text="#{character.gameClass.majorSkills}"></h5>
+	            <div 
+                        th:insert="fragments/stat.html 
+                  :: showStats(table=${character.majorSkills})"></div>
+	        
+	           
+	           <div class="thin-border divider"></div>
+	           
+	                  <!-- Minor Skills -->
+	            <h5 th:text="#{character.gameClass.minorSkills}"></h5>
+                <div 
+                    th:insert="fragments/stat.html 
+                  :: showStats(table=${character.minorSkills})"></div>
+	            
+	            <div class="thin-border divider"></div>
+	            
+	            <!-- Misc Skills -->
+	            <h5 th:text="#{character.gameClass.miscSkills}"></h5>
+                <div th:insert="fragments/stat.html 
+                  :: showStats(table=${character.miscSkills})"></div>
+                	  
+		  </div>
+
+		</div>
+	</div>
 </div>
 
 </html>

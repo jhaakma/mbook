@@ -2,21 +2,23 @@ package mbook.validation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class EnumListConstraint implements ConstraintValidator<EnumListValidator, ArrayList<String>> {
+public class EnumListConstraint implements ConstraintValidator<EnumListValidator, Map<String, Integer>> {
 
-  List<String> valueList = null;
+ ArrayList<String> valueList = null;
 
   @Override
-  public boolean isValid(ArrayList<String> list, ConstraintValidatorContext context) {
-      for ( String value : list ) {
-          if(!valueList.contains(value)) {
-              return false;
-            }
-      }
+  public boolean isValid(Map<String, Integer> list, ConstraintValidatorContext context) {
+
+    for (Map.Entry<String, Integer> entry : list.entrySet() ) {
+        if ( !valueList.contains(entry.getKey()) ) {
+            return false;
+        }
+    }
     return true;
   }
 
