@@ -8,7 +8,7 @@
 </head>
 <body>
 	<div layout:fragment="sidebar">
-		<h4 class="subheading" th:text="|Characters|"></h4>
+		<h5 class="subheading" th:text="|Characters|"></h5>
 		<ul>
 			<th:block th:each="character,i : ${owner.gameCharacters}">
 				<li><a th:href="|\character?user=${owner.username}&character=${character}|"
@@ -23,14 +23,12 @@
 
 			<div class="col">
 				<h2 th:text="#{character.title(${character.name})}"></h2>
-				<h6 th:text="|${character.sex} ${character.race}|"></h6>
-				<h6 class="subheading">
+
+				<span class="subheading">
 					<span th:text="#{character.owner}"></span> <a
 						th:href="|/profile?username=${owner.username}|"
 						th:text="${owner.username}"></a>
-				</h6>
-
-				<h6 th:text="|Gold: ${character.gold}|"></h6>
+				</span>
 
 				<div th:insert="fragments/description.html 
 				    :: showDescription(title=#{character.bio}, 
@@ -38,20 +36,38 @@
 				></div>
 
 			</div>
-			<div class="col-md-auto sidebar">
 
-				<div class="thin-border">
-					<div class="profile-img-container">
-						<img src="images/pikachu.png">
-					</div>
 
-				</div>
 
-				<div class="thin-border">
-					<div
+			
+			<div class="col-auto">
+				<table style=" width:100%;"><tr>
+					<td valign="top" class="thin-border">
+						<div class="thin-border profile-img-container">
+							<img class="profile-img" src="images/brainlet.png">
+						</div>
+						<table style="width: 100%">
+							<tr
+								th:insert="fragments/stat.html
+	           			:: showStat(title='Level', value=${character.level}, headerColor=true)"></tr>
+	
+							<tr
+								th:insert="fragments/stat.html
+	           			:: showStat(title='Race', value=${character.race}, headerColor=true)"></tr>
+	
+							<tr
+								th:insert="fragments/stat.html
+	           			:: showStat(title='Class', value=${character.className}, headerColor=true)"></tr>
+						</table>
+						<div class="thin-border divider"></div>
+						<div
+								th:insert="fragments/statList.html
+		                  :: showStats(table=${character.attributes})"></div>
+					</td>
+					<td valign="top" class="thin-border" 
 						th:insert="fragments/classInfo.html 
-                  :: showClassInfo(character=${character})"></div>
-				</div>
+	                  :: showClassInfo(character=${character})"></td>
+				</tr></table>
 
 			</div>
 		</div>

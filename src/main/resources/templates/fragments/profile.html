@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
 <div th:fragment="showProfile(user)">
-        <h2 th:text="#{profile.title(${user.username})}"></h2>
+        <h3 th:text="#{profile.title(${user.username})}"></h3>
                 
         <!-- Emdeded Streamable user -->
         <div th:if="${user.username == currentUser.username}">
-            <h5 th:text="|#{profile.email} ${user.email}|"></h5>
+            <span th:text="|#{profile.email} ${user.email}|"></span>
         </div>
         
         

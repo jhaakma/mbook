@@ -1,8 +1,10 @@
 package mbook.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.validation.constraints.NotBlank;
@@ -92,4 +94,5 @@ public class User implements UserDetails {
         // TODO Auto-generated method stub
         return true;
     }
+
 }

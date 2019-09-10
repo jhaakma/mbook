@@ -1,5 +1,6 @@
 package mbook.model;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -53,6 +54,10 @@ public class GameCharacter {
     
     @EnumValidator(enumClass=Attribute.class)
     private String favoredAttribute_2;
+    
+    @Size(min=8, max=8)
+    @EnumListValidator(enumClass=Attribute.class)
+    private Map<String, Integer> attributes;
     
     @Size(min=5, max=5)
     @EnumListValidator(enumClass=Skill.class)

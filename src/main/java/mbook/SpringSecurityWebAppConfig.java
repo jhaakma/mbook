@@ -25,18 +25,18 @@ import mbook.service.PageService;
 public class SpringSecurityWebAppConfig  {    
 
     
-      @Configuration
-      
-      @Order(1) public static class ApiSecurityConfig extends
-      WebSecurityConfigurerAdapter {
-      
-      @Override protected void configure(HttpSecurity http) throws Exception { http
-      .antMatcher("/api/**").authorizeRequests() .anyRequest() .authenticated()
-      .and().httpBasic() .and().sessionManagement()
-      .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-      .and().csrf().disable(); } }
-      
-    
+	@Configuration
+
+	@Order(1)
+	public static class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
+
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			http.antMatcher("/api/**").authorizeRequests().anyRequest().authenticated().and().httpBasic().and()
+					.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable();
+		}
+	}
+
     @Configuration
     public static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         
@@ -83,7 +83,7 @@ public class SpringSecurityWebAppConfig  {
             http
                 .authorizeRequests()
                 //Public pages
-                    .antMatchers("/", "/favicon.ico", "/resources/**", "/static/**", "/css/**", "/js/**", "/images/**")
+                    .antMatchers("/", "/favicon.ico", "/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/login", "/signup", "/confirmRegistration")
                         .permitAll()
                 //Everything else: private
                     .anyRequest().authenticated()
