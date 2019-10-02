@@ -1,6 +1,5 @@
 package mbook.character;
 
-import java.util.Comparator;
 import java.util.Map;
 
 import javax.validation.constraints.NotNull;

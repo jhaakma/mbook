@@ -39,7 +39,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.hibernate.validator:hibernate-validator'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
-	
+	compile 'commons-beanutils:commons-beanutils:1.9.4'
 	
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

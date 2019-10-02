@@ -28,12 +28,13 @@ public class GameCharacterServiceImpl implements GameCharacterService {
     public User getOwner(GameCharacter characterRecord) {
         return userService.findUserByUsername(characterRecord.getOwner());
     }
-    
+     
     @Override
     public void saveCharacter(User user, GameCharacter gameCharacter) { 
         GameCharacter savedCharacter = gameCharacterRepository.save(gameCharacter);
         userService.saveCharacter(user, savedCharacter.getName());
     }
+   
     
     @Override
     @Transactional

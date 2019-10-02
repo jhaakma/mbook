@@ -39,7 +39,7 @@ public class WebController extends AbstractWebController {
      */
     @GetMapping("/")
     public String home(  Model model  ) {
-        model.addAttribute("list", gameCharacterService.getTopScoringCharacters(12));
+        model.addAttribute("list", gameCharacterService.getTopScoringCharacters(10));
         return "index";
     }
     
