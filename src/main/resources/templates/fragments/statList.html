@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<div th:fragment="showStats(table)">
+
+	<table style="width:100%;">
+	    <tr class="bleh" th:each="row,i : ${table}">
+	    	<th:block 
+                  th:insert="fragments/stat.html
+            :: showStat(title=${row.key}, value=${row.value}, headerColor=false)">
+            </th:block>
+	    </tr>
+	</table>
+</div>
+</html>

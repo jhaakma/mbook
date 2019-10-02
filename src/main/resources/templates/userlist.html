@@ -9,7 +9,7 @@
     <body>
 
 		<div layout:fragment="sidebar">
-			<h4 class="subheading" th:text="|#{users.title}:|"></h4>
+			<h4 th:text="|#{users.title}:|"></h4>
 			<ul>
 				<th:block th:each="user,i : ${users}">
 					<li>

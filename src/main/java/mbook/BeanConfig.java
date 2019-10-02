@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.http.HttpMethod;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,15 +17,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import mbook.model.Role;
-import mbook.repository.RoleRepository;
+import mbook.role.Role;
+import mbook.role.RoleRepository;
 import nz.net.ultraq.thymeleaf.LayoutDialect;
 
 @Controller
@@ -43,6 +40,15 @@ public class BeanConfig implements WebMvcConfigurer {
      * .addResourceLocations("/resources/"); }
      */
     
+	/*
+	 * @Bean public SecurityEvaluationContextExtension
+	 * securityEvaluationContextExtension() { return new
+	 * SecurityEvaluationContextExtension(); }
+	 * 
+	 * @Override public void
+	 * configureRepositoryRestConfiguration(RepositoryRestConfiguration restConfig)
+	 * { restConfig.setExposeRepositoryMethodsByDefault(false); }
+	 */
     
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

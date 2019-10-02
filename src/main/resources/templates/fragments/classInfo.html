@@ -1,48 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
 <div th:fragment="showClassInfo(character)">
-	<h3 th:text="#{character.gameClass.title(${character.className})}"></h3>
+<!-- 	<h3 th:text="#{character.gameClass.title(${character.className})}"></h3>
+ -->
 
-	<div class="row">
-		<div class="col-sm" style="padding-right:0px;">
-		    <div class="thin-border"  style="height:100%">
-                <h5 th:text="#{character.gameClass.attributes}"></h5>
-                <ul>
-                    <li>
-                    <span> Strength:</span>
-                    <span  style="padding-left:30px; float:right"> 30</span>
-                    </li>
-                </ul>
-            </div>
-		</div>
-		<div class="col-sm" style="padding-left:0px; margin-left:-2px;">
-		  <div class="thin-border" style="height:100%">
                   <!-- Major Skills -->
-	            <h5 th:text="#{character.gameClass.majorSkills}"></h5>
+	            <h6 th:text="#{character.gameClass.majorSkills}"></h6>
 	            <div 
-                        th:insert="fragments/stat.html 
+                        th:insert="fragments/statList.html
                   :: showStats(table=${character.majorSkills})"></div>
 	        
 	           
 	           <div class="thin-border divider"></div>
 	           
 	                  <!-- Minor Skills -->
-	            <h5 th:text="#{character.gameClass.minorSkills}"></h5>
+	            <h6 th:text="#{character.gameClass.minorSkills}"></h6>
                 <div 
-                    th:insert="fragments/stat.html 
+                    th:insert="fragments/statList.html
                   :: showStats(table=${character.minorSkills})"></div>
 	            
 	            <div class="thin-border divider"></div>
 	            
 	            <!-- Misc Skills -->
-	            <h5 th:text="#{character.gameClass.miscSkills}"></h5>
-                <div th:insert="fragments/stat.html 
+	            <h6 th:text="#{character.gameClass.miscSkills}"></h6>
+                <div th:insert="fragments/statList.html
                   :: showStats(table=${character.miscSkills})"></div>
-                	  
-		  </div>
-
-		</div>
-	</div>
+                
 </div>
 
 </html>

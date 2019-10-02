@@ -9,36 +9,46 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.header.writers.StaticHeadersWriter;
 
-import mbook.model.Page;
-import mbook.service.PageService;
+import mbook.page.Page;
+import mbook.page.PageService;
 
 
 @EnableWebSecurity
-
 public class SpringSecurityWebAppConfig  {    
 
     
-      @Configuration
-      
-      @Order(1) public static class ApiSecurityConfig extends
-      WebSecurityConfigurerAdapter {
-      
-      @Override protected void configure(HttpSecurity http) throws Exception { http
-      .antMatcher("/api/**").authorizeRequests() .anyRequest() .authenticated()
-      .and().httpBasic() .and().sessionManagement()
-      .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-      .and().csrf().disable(); } }
-      
-    
+	@Configuration
+
+	@Order(1)
+	public static class ApiSecurityConfig extends WebSecurityConfigurerAdapter {
+
+		@Override
+		protected void configure(HttpSecurity http) throws Exception {
+			http.antMatcher("/api/**")
+			.authorizeRequests()
+			    .anyRequest()
+			    .authenticated()
+			.and().httpBasic()
+			.and().sessionManagement()
+			    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and().csrf()
+			    .disable();
+			
+			 http.headers().addHeaderWriter(
+	                    new StaticHeadersWriter("Access-Control-Allow-Origin", "*"));
+		}
+	}
+
     @Configuration
     public static class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
         
         @Autowired
         Environment env;
@@ -60,6 +70,7 @@ public class SpringSecurityWebAppConfig  {
         
         @Override
         protected void configure(HttpSecurity http) throws Exception {
+            
             
             //Authorise each page from entry in DB
             ArrayList<Page> pages = pageService.getPages();
@@ -83,7 +94,7 @@ public class SpringSecurityWebAppConfig  {
             http
                 .authorizeRequests()
                 //Public pages
-                    .antMatchers("/", "/favicon.ico", "/resources/**", "/static/**", "/css/**", "/js/**", "/images/**")
+                    .antMatchers("/", "/favicon.ico", "/resources/**", "/static/**", "/css/**", "/js/**", "/images/**", "/login", "/signup", "/confirmRegistration")
                         .permitAll()
                 //Everything else: private
                     .anyRequest().authenticated()
@@ -96,7 +107,8 @@ public class SpringSecurityWebAppConfig  {
                     .deleteCookies("JSESSIONID")
                 //Remember me token
                 .and().rememberMe()
-                    .key(env.getProperty("custom.rememberMeKey"));
+                    .key(env.getProperty("custom.rememberMeKey"))
+                    .and().csrf().disable();
         }
     }
 }

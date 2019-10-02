@@ -7,9 +7,8 @@
 <title th:text="#{videos.title}"></title>
 </head>
 <body style="">
-
 	<div layout:fragment="sidebar">
-		<h2 class="subheading" th:text="#{videos.latest}"></h2>
+		<h4 th:text="#{videos.latest}"></h4>
 		<ul>
 			<th:block th:each="video,i : ${videos}">
 				<li><a th:href="@{/videos(id=${i.index})}"

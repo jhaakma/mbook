@@ -1,5 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://thymeleaf.org">
-    <div th:fragment="characterTile(character)"></div>
+    <div th:fragment="character(character)">
+        <div class="thin-border fit-content">
+            <h5 th:text="|Score: ${character.score}"></h5>
+           <div class="thin-border profile-img-container">
+                <img class="profile-img" th:src="${character.profileImage}">
+            </div>
+            <h5 th:text="${character.name}"></h5>
+            <div th:text="|Class: ${character.className}"></div>
+            <div th:text="|Race: ${character.race}"></div>
+            
+        </div>        
 
+    </div>
 </html>

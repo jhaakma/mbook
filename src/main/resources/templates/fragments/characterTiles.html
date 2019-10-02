@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+<div 
+    th:fragment="showTiles(list)"
+>
+        <h3 th:text="|LeaderBoard|"></h3>
+        <div>
+        <div class="row justify-content-start">
+	        <th:block class="col-sm-6" th:each="character,i : ${list}">
+	            <div  th:insert="fragments/characterTile.html :: character(${character})"></div>
+	        </th:block>
+        </div>
+        </div>
+</div>
+
+</html>
