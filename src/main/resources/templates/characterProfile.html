@@ -9,7 +9,7 @@
 </head>
 <body>
 	<div layout:fragment="sidebar">
-		<h4 th:text="|Characters|"></h4>
+		<h4 th:text="|${owner.username}'s Characters|"></h4>
 		<ul>
 			<th:block th:each="character,i : ${owner.gameCharacters}">
 				<li><a th:href="|\character?user=${owner.username}&character=${character}|"
@@ -46,17 +46,18 @@
 							<img class="profile-img" th:src="${character.profileImage}">
 						</div>
 						<table style="width: 100%">
-							<tr
-								th:insert="fragments/stat.html
-	           			:: showStat(title='Level', value=${character.level}, headerColor=true)"></tr>
-	
-							<tr
-								th:insert="fragments/stat.html
-	           			:: showStat(title='Race', value=${character.race}, headerColor=true)"></tr>
-	
-							<tr
-								th:insert="fragments/stat.html
-	           			:: showStat(title='Class', value=${character.className}, headerColor=true)"></tr>
+                            <tr
+                                th:insert="fragments/stat.html
+                                :: showStat(title='Level', value=${character.level}, headerColor=true)">
+                            </tr>
+                            <tr
+                                th:insert="fragments/stat.html
+                                :: showStat(title='Race', value=${character.race}, headerColor=true)">
+                            </tr>
+                            <tr
+                                th:insert="fragments/stat.html
+                               :: showStat(title='Class', value=${character.className}, headerColor=true)">
+                            </tr>
 						</table>
 						<div class="thin-border divider"></div>
 						<div

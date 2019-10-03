@@ -23,13 +23,15 @@ public class CustomAuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             HttpServletResponse response, 
             Authentication authentication
     ) throws IOException, ServletException { // set our response to OK status
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.addHeader("Access-Control-Allow-Origin", "*");
-        response.sendRedirect("/api/user");
         /*
-         * for (GrantedAuthority auth : authentication.getAuthorities()) { if
-         * ("ADMIN".equals(auth.getAuthority())) { response.sendRedirect("/dashboard");
-         * } else { response.sendRedirect("/?login=true"); } }
+         * response.setStatus(HttpServletResponse.SC_OK);
+         * response.addHeader("Access-Control-Allow-Origin", "*");
+         * response.sendRedirect("/api/user");
          */
+        
+          for (GrantedAuthority auth : authentication.getAuthorities()) { if
+          ("ADMIN".equals(auth.getAuthority())) { response.sendRedirect("/dashboard");
+          } else { response.sendRedirect("/?login=true"); } }
+         
     }
 }

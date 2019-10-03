@@ -51,6 +51,11 @@ li {
 h1, h2, h3, h4, h5, h6 {
 	color:var(--header-color);
 	font-weight:normal;
+	
+}
+
+h5, h6 {
+	margin-bottom:0;
 }
 
 table {
@@ -66,8 +71,14 @@ table {
 	   max-height: 30%;
 	   width:100%;
     }
+    .profile-img-container {
+        height: 120px;
+        width: 120px;
+    }
     .profile-img {
 		width: 120px;
+		min-height: 120px;
+		object-fit:cover;
 	}
     
 }
@@ -79,8 +90,14 @@ table {
  		width:200px;
         min-width:200px;
     }
+    .profile-img-container {
+        height: 200px;
+        width: 200px;
+    }
     .profile-img {
 		width: 200px;
+		min-height: 200px;
+		object-fit:cover;
 	}
     
 }
@@ -115,10 +132,10 @@ table {
 }
 
 .divider {
-	border-image: url(border.png) 20 20 20 20 repeat;
-	border-width: 1px;
+	border-image: url(border.png) 10 10 10 10 repeat;
+	border-width: 2px;
     padding:0!important;
-    margin-top: 10px;
+    margin-top: 10px!important;
     height: 0px!important;
 }
 
@@ -167,8 +184,8 @@ table {
 
 .profile-img-container {
 	margin: auto;
-    width: max-content;
     padding:0!important;
+    overflow: hidden;
 }
 
 
@@ -199,4 +216,28 @@ table {
 .subheading {
 	/* padding: 5px; */
 	white-space: nowrap;
+	padding-bottom:10px;
+}
+
+
+/* Tooltip container */
+.tool-tip {
+	  position: relative;
+    display: inline-block;
+}
+
+/* Tooltip text */
+.tool-tip .tooltiptext {
+  visibility: hidden;
+  min-width: 200px;
+  background-color: black;
+  color: var(--normal-color);
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tool-tip:hover .tooltiptext {
+  visibility: visible;
 }

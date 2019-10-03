@@ -2,13 +2,49 @@
 <html xmlns:th="http://thymeleaf.org">
     <div th:fragment="character(character)">
         <div class="thin-border fit-content">
-            <h5 th:text="|Score: ${character.score}"></h5>
-           <div class="thin-border profile-img-container">
-                <img class="profile-img" th:src="${character.profileImage}">
+
+            <a 
+                th:href="|/character?user=${character.owner}&character=${character.name}|"
+                class="tool-tip"
+            >
+	           <div class="thin-border profile-img-container">
+	                    <img class="profile-img"  th:src="${character.profileImage}">
+	            </div>
+            
+                
+                <div class="tooltiptext thin-border">
+                    <h5 th:text="${character.name}"></h5>
+	                <div class="thin-border divider"></div>
+	                   <table style="width: 100%">
+                            <tr
+                                th:insert="fragments/stat.html
+                                :: showStat(title='Level', value=${character.level}, headerColor=true)">
+                            </tr>
+                            <tr
+                                th:insert="fragments/stat.html
+                                :: showStat(title='Race', value=${character.race}, headerColor=true)">
+                            </tr>
+                            <tr
+                                th:insert="fragments/stat.html
+	                           :: showStat(title='Class', value=${character.className}, headerColor=true)">
+	                        </tr>
+                        </table>
+                </div>
+              <h5 th:text="${character.name}"></h5>  
+            </a>
+            <div class="subheading">
+                    <span th:text="#{character.owner}"></span> <a
+                        th:href="|/profile?username=${character.owner}|"
+                        th:text="${character.owner}"></a>
             </div>
-            <h5 th:text="${character.name}"></h5>
-            <div th:text="|Class: ${character.className}"></div>
-            <div th:text="|Race: ${character.race}"></div>
+            <table style="width: 100%">
+	            <tr
+	                th:insert="fragments/stat.html
+	                :: showStat(title='Score', value=${character.score}, headerColor=true)">
+	            </tr>
+	            
+            </table>
+            
         </div>
     </div>
 </html>
