@@ -1,0 +1,38 @@
+
+.result {
+    height: 100%;
+}
+
+.crop-box {
+	height: 60vh;
+}
+
+.crop-buttons-box {
+    display:flex;
+}
+
+.options label,
+.options input{
+    width:4em;
+    padding:0.5em 1em;
+}
+.btn{
+    background:black;
+    color:var(--normal-color);
+    padding: 0.5em 1em;
+    text-decoration:none;
+    margin:0.8em 0.3em;
+    display:inline-block;
+    cursor:pointer;
+}
+
+
+
+.hide {
+    display: none;
+}
+
+img {
+	height: -webkit-fill-available;
+    max-width: 100%;
+}

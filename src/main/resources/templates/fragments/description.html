@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html  xmlns:th="http://thymeleaf.org">
-	    <div layout:fragment="borderBox">
-		    <div th:fragment="showDescription(title, description)">
-		        <h3 style:"white-space: nowrap;" th:text="${title}"></h3>
+	    <div layout:fragment="borderBox" >
+		    <div class="thin-border description" th:fragment="showDescription(title, description)">
+		        <h4 style:"white-space: nowrap;" th:text="${title}"></h4>
 		        <div th:text="${description}"></div>
 		    </div>
 		</div>   

@@ -15,11 +15,21 @@
 
 <body>
 
+<div class="mbook-navbar">
+    <span><a class="mbook-nav-header" href="/" th:text="|#{siteName}|"></a></span>
+    <th:block th:each="page,i : ${pages}">
+        <span th:if="${page.showInMenu}">
+            <a class="mbook-nav-item" th:href="${page.href}" th:text="${page.title}"></a>
+        </span>
+    </th:block>
+</div>
+
+
 	<!-- Navigation bar -->
-<nav class="mbook-navbar navbar navbar-expand-lg navbar-dark fixed-top">
+    <nav class="mbook-navbar navbar navbar-expand-lg navbar-dark fixed-top">
 	
 	   
-	           <a class="navbar-brand" href="/" th:text="|#{siteName}|"></a>
+	    <a class="navbar-brand" href="/" th:text="|#{siteName}|"></a>
         
         <button class="navbar-toggler" type="button" data-toggle="collapse"
             data-target="#navbarSupportedContent"
@@ -52,7 +62,7 @@
 		</div>
 	</nav>
 
-	<!--  Side Bar -->
+	
 	<div class="main-content">
 	  	<th:block class="thin-border scroll-box sidebar"
                layout:fragment="sidebar" />

@@ -1,67 +1,68 @@
 <!DOCTYPE html>
-<html 
-    xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{default}"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
->
-    <head>
-        <title th:text="#{login.title}"></title>
-        <link rel="stylesheet" href="/css/login-form.css" />
-    </head>
-    <body class="text-center">
-        <div layout:fragment="content">
-            <div th:if="${loggedIn}">
-                <h1 class="h3 mb-3 font-weight-normal" th:text="#{login.alreadyLoggedIn}"></h1>
-                <a class="nav-item" th:href="@{/}" method="get" th:text="#{home.return}"></a>
-            </div>
-            <div th:if="not ${loggedIn}">
-                <form class="form-signin" th:action="@{/login}" method="post">
-                    <!--<img 
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{default}"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<title th:text="#{login.title}"></title>
+<link rel="stylesheet" href="/css/login-form.css" />
+</head>
+<body class="text-center">
+	<div layout:fragment="content">
+		<div th:if="${loggedIn}">
+			<h1 class="h3 mb-3 font-weight-normal"
+				th:text="#{login.alreadyLoggedIn}"></h1>
+			<a class="nav-item" th:href="@{/}" method="get"
+				th:text="#{home.return}"></a>
+		</div>
+		<div th:if="not ${loggedIn}">
+			<form class="form-signin" th:action="@{/login}" method="post">
+				<!--<img 
                        class="mb-4" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" 
                        alt="" width="72" height="72" 
                     />-->
-	                <h1 class="h3 mb-3 font-weight-normal" th:text="#{login.title}"></h1>
-	                
-                   
-                    <div th:if="${successMessage}" >
-                       <div class="login-message" th:text="${successMessage}"></div>
-                    </div>
-                    
-                    <div th:if="${errorMessage}">
-                        <div class="error-message" th:text="${errorMessage}"></div>
-                    </div>
-                    <div th:if="${param.logout}">
-                       <div class="error-message" th:text="#{login.loggedOut}"></div>
-                    </div>
-                    <div th:if="${param.error}">
-                       <div class="error-message"  th:text="|#{login.failed} (${session[SPRING_SECURITY_LAST_EXCEPTION].message})|"></div>
-                    </div>
-	                <label for="inputUsername" class="sr-only" th:text="#{login.username}"></label>
-	                <input 
-	                   type="username" name="username" id="inputUsername" 
-	                   class="form-control" th:placeholder="#{login.input.username}" required="" 
-	                />
-	                <label for="inputPassword" class="sr-only" th:text="#{login.password}"></label>
-	                <input 
-	                   type="password" name="password" id="inputPassword" 
-	                   class="form-control" th:placeholder="#{login.input.password}" required="" 
-	                />
-	                <tr>
-	                   <div class="rememberMe">
-	                   <td th:text="#{login.rememberMe}"></td>
-                        <td><input class="checkbox"  type="checkbox" name="remember-me" /></td>
-	                   </div>
-		            </tr>
-	                
-	                <button class="btn btn-lg btn-primary btn-block" type="submit" th:text="#{login.submit}"></button>
-	            </form>
-	            <form class="form-signin" th:action="@{/signup}" method="get">
-	                <button 
-	                   class="btn btn-md btn-primary btn-block" type="Submit" 
-	                   th:text="#{signup.title}"
-	                ></button>
-	            </form>
-            </div>
-        </div>
-    </body>
+				<h1 class="h3 mb-3 font-weight-normal" th:text="#{login.title}"></h1>
+
+
+				<div th:if="${successMessage}">
+					<div class="login-message" th:text="${successMessage}"></div>
+				</div>
+
+				<div th:if="${errorMessage}">
+					<div class="error-message" th:text="${errorMessage}"></div>
+				</div>
+				<div th:if="${param.logout}">
+					<div class="error-message" th:text="#{login.loggedOut}"></div>
+				</div>
+				<div th:if="${param.error}">
+					<div class="error-message"
+						th:text="|#{login.failed} (${session[SPRING_SECURITY_LAST_EXCEPTION].message})|"></div>
+				</div>
+				<label for="inputUsername" class="sr-only"
+					th:text="#{login.username}"></label> <input type="username"
+					name="username" id="inputUsername" class="form-control"
+					th:placeholder="#{login.input.username}" required="" /> <label
+					for="inputPassword" class="sr-only" th:text="#{login.password}"></label>
+				<input type="password" name="password" id="inputPassword"
+					class="form-control" th:placeholder="#{login.input.password}"
+					required="" />
+				<tr>
+					<div class="rememberMe">
+						<td th:text="#{login.rememberMe}"></td>
+						<td><input class="checkbox" type="checkbox"
+							name="remember-me" /></td>
+					</div>
+				</tr>
+
+				<button class="btn btn-lg btn-primary btn-block" type="submit"
+					th:text="#{login.submit}"></button>
+			</form>
+			<form class="form-signin" th:action="@{/signup}" method="get">
+				<button class="btn btn-md btn-primary btn-block" type="Submit"
+					th:text="#{signup.title}"></button>
+			</form>
+		</div>
+	</div>
+</body>
 </html>

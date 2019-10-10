@@ -2,18 +2,16 @@
 <html xmlns:th="http://thymeleaf.org">
     <div th:fragment="character(character)">
         <div class="thin-border fit-content">
-
-            <a 
-                th:href="|/character?user=${character.owner}&character=${character.name}|"
-                class="tool-tip"
-            >
-	           <div class="thin-border profile-img-container">
-	                    <img class="profile-img"  th:src="${character.profileImage}">
-	            </div>
-            
-                
+            <div class="tool-tip" >
+                <a  th:href="|/character?user=${character.owner}&character=${character.name}|">
+                    <div class="thin-border tile-img-container">
+                        <img class="profile-img"  th:src="${character.profileImage}">
+                    </div>
+	            </a>
                 <div class="tooltiptext thin-border">
-                    <h5 th:text="${character.name}"></h5>
+                    <a th:href="|/character?user=${character.owner}&character=${character.name}|">
+                        <h5 th:text="${character.name}"></h5>
+                    </a>
 	                <div class="thin-border divider"></div>
 	                   <table style="width: 100%">
                             <tr
@@ -30,14 +28,29 @@
 	                        </tr>
                         </table>
                 </div>
-              <h5 th:text="${character.name}"></h5>  
-            </a>
-            <div class="subheading">
-                    <span th:text="#{character.owner}"></span> <a
-                        th:href="|/profile?username=${character.owner}|"
-                        th:text="${character.owner}"></a>
             </div>
+                
+            
             <table style="width: 100%">
+            
+                <tr>
+	                <td colspan="2">
+	                    <a  th:href="|/character?user=${character.owner}&character=${character.name}|">
+	                        <h5 th:text="${character.name}"></h5>
+	                    </a>
+		            </td>
+	            </tr>
+	            
+	            <tr>
+		            <td class="subheading" colspan="2">
+		                <span th:text="#{character.owner}"></span> 
+		                <a
+		                    th:href="|/profile?username=${character.owner}|"
+		                    th:text="${character.owner}">
+		                </a>
+	                </td>
+                </tr>
+                
 	            <tr
 	                th:insert="fragments/stat.html
 	                :: showStat(title='Score', value=${character.score}, headerColor=true)">

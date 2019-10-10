@@ -1,8 +1,120 @@
 <!DOCTYPE html>
-<html xmlns:th="http://thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="~{default}">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{default}"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+      <title>Upload Image</title>
+      <link rel="stylesheet" th:href="@{/css/cropper.min.css}">
+      <link rel="stylesheet" th:href="@{/css/crop.css}">
+    </head>
+    <body>
+      <div layout:fragment="content">
+        <h2 th:text="|Upload new Profile Image for ${characterName}"></h2>
+        <div class="crop-buttons-box ">
+	        
+	        <input class="thin-border btn" type="file" id="file-input">
+	                    <!-- input file -->
+            <div class="options hide">
+                <!-- <label> Width</label>
+                <input type="number" class="img-w" value="300" min="100" max="1200" /> -->
+            </div>
+            <!-- save btn -->
+            <button class="thin-border btn save hide">Preview</button>
+            <!-- download btn -->
+            <a href="" class="thin-border btn download hide">Save</a>
+        </div>
+        
+		<main class="row">
+		    
+		    <!-- leftbox -->
+		    <div class="col thin-border crop-box">
+                <div class="result"></div>
+		    </div>
+		    
+		    <!--rightbox-->
+		    <div class="col thin-border crop-box">
+			    <div class="img-result">
+	                <!-- result of crop -->
+	                <img class="cropped" src="/images/default.png" alt="">
+	            </div>
+		    </div>
+		    
+
+		</main>
+				  
+      </div>
+      
+      <th:block layout:fragment="script">
+	      <script type="text/javascript" src="/js/cropper.min.js"></script>
+		  <script>
+
+		// vars
+		  let result = document.querySelector('.result'),
+		  img_result = document.querySelector('.img-result'),
+		  img_w = document.querySelector('.img-w'),
+		  img_h = document.querySelector('.img-h'),
+		  options = document.querySelector('.options'),
+		  save = document.querySelector('.save'),
+		  cropped = document.querySelector('.cropped'),
+		  dwn = document.querySelector('.download'),
+		  upload = document.querySelector('#file-input'),
+		  cropper = '';
+
+		  // on change show image with crop options
+		  upload.addEventListener('change', (e) => {
+		    if (e.target.files.length) {
+		          // start file reader
+		      const reader = new FileReader();
+		      reader.onload = (e)=> {
+		        if(e.target.result){
+		                  // create new image
+		                  let img = document.createElement('img');
+		                  img.id = 'image';
+		                  img.src = e.target.result
+		                  // clean result before
+		                  result.innerHTML = '';
+		                  // append new image
+		          result.appendChild(img);
+		                  // show save btn and options
+		                  save.classList.remove('hide');
+		                  options.classList.remove('hide');
+		                  // init cropper
+		                  cropper = new Cropper(img, {
+		                      aspectRatio: 1/1
+		                  });
+		        }
+		      };
+		      reader.readAsDataURL(e.target.files[0]);
+		    }
+		  });
+
+		  // save on click
+		  save.addEventListener('click',(e)=>{
+		    e.preventDefault();
+		    // get result to data uri
+		    let imgSrc = cropper.getCroppedCanvas({
+		          width: 400
+		      }).toDataURL();
+		    // remove hide class of img
+		    cropped.classList.remove('hide');
+		      img_result.classList.remove('hide');
+		      // show image cropped
+		    cropped.src = imgSrc;
+		    dwn.classList.remove('hide');
+		    
+
+		    var userName = "[[${currentUser.username}]]";
+		    var charName = "[[${characterName}]]"
+		    dwn.download = userName + '_' + charName +'.png';
+		    dwn.setAttribute('href',imgSrc);
+		  });
 
 
-</div>
+		  
+		  </script>
+      </div>
+   
+</body>
 </html>

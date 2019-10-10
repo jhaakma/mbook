@@ -1,7 +1,10 @@
 :root {
     --header-color:#b9ab90;
     --normal-color:#957b4c;
-    --link-color-normal: #8fb2d8;
+    --link-color-normal: #5a83c1;
+    --tile-image-width:150px;
+    --profile-image-width: 230px;
+    
     /* --link-color-active */
 }
 
@@ -30,28 +33,36 @@ body {
 } 
 
 a{
+	/* color: inherit; */
 	color: var(--link-color-normal);
+	/* text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white; */
 }
 a:hover {
-	color: cornflowerblue;
+	color: var(--link-color-normal);
+	text-shadow: 0 0 1px white;
+	text-decoration: none;
+	
 }
+a .profile-img-container:hover {
+    box-shadow: 0px 0px 10px white;
+}
+
+
 ul {
 	padding-inline-start: 0px;
 	list-style: none;
-	
 }
 
 
 li {
 	white-space: nowrap;
 	padding-right: 10px;
-	
 }
 
 h1, h2, h3, h4, h5, h6 {
 	color:var(--header-color);
 	font-weight:normal;
-	
+	font-variant-caps: titling-caps;
 }
 
 h5, h6 {
@@ -60,6 +71,7 @@ h5, h6 {
 
 table {
 	border-collapse:unset;
+	border-spacing: 0;
 }
 
 @media(max-width: 575.998px) {
@@ -71,72 +83,92 @@ table {
 	   max-height: 30%;
 	   width:100%;
     }
-    .profile-img-container {
-        height: 120px;
-        width: 120px;
-    }
-    .profile-img {
-		width: 120px;
-		min-height: 120px;
-		object-fit:cover;
-	}
+
     
 }
 
 @media(min-width: 576px) {
 	.sidebar {
         flex: 0 1 auto;
- 		margin-right: 10px;\
- 		width:200px;
-        min-width:200px;
+ 		margin-right: 10px;
+ 		width:250px;
+        min-width:250px;
     }
-    .profile-img-container {
-        height: 200px;
-        width: 200px;
-    }
-    .profile-img {
-		width: 200px;
-		min-height: 200px;
-		object-fit:cover;
-	}
+
     
 }
 
-/* 
-.profile-img {
-	width:200px;
-} */
-
-.row {
-	height:100%;
-	margin-right: 0;
-    margin-left: 0;
+.mbook-navbar {
+	position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+    border-image: url(border.png) 20 20 20 20 repeat;
+    border-width: 6px;
+    border-bottom-style: solid;
+    background: black;
+    padding: 10px;
+    color:var(--header-color);
 }
 
 
+.mbook-navbar .mbook-nav-item {
+	padding:20px;
+}
+
+.mbook-navbar .mbook-nav-header {
+	padding:20px;
+	padding-left: 5px;
+	font-size: x-large;
+}
+
+.mbook-navbar a {
+	color: var(--header-color);
+}
+
+.row {
+	margin-right: 0;
+    margin-left: 0;
+
+}
+
+.col, .col-auto {
+	padding-left: 0;
+    padding-right: 10px;
+}
+
 .navbar {
+	visibility:hidden;
 	border-image: url(border.png) 20 20 20 20 repeat;
 	border-width: 6px;
     border-bottom-style: solid;
     background: black;
+    
 }
+
+.nav-link {
+	color: var(--header-color)
+}
+
 
 .thin-border {
 	border-image: url(border.png) 20 20 20 20 repeat;
 	border-width: 4px;
     border-style: solid;
     padding: 10px;
-    margin-bottom:10px;
+   /*  margin-bottom:10px; */
 	scroll-margin: 50px;
-
 }
 
 .divider {
 	border-image: url(border.png) 10 10 10 10 repeat;
-	border-width: 2px;
-    padding:0!important;
-    margin-top: 10px!important;
-    height: 0px!important;
+    border-top-width: 2px;
+    border-bottom-width: 0px;
+    border-style: solid;
+    padding: 0px;
+    margin-top: 4px;
+    margin-bottom: 6px;
 }
 
 .main-content {
@@ -156,7 +188,6 @@ table {
 
 .content {
     flex:1 1 auto;
-    padding-right: 20px;
 }
 
 .scroll-box {
@@ -186,8 +217,27 @@ table {
 	margin: auto;
     padding:0!important;
     overflow: hidden;
+    height: var(--profile-image-width);
+    width: var(--profile-image-width);
 }
 
+.profile-img-container .profile-img {
+    width: var(--profile-image-width);
+    min-height: var(--profile-image-width);
+    object-fit:cover;
+}
+.tile-img-container {
+    margin: auto;
+    padding:0!important;
+    overflow: hidden;
+    height: var(--tile-image-width);
+    width: var(--tile-image-width);
+}
+.tile-img-container .profile-img {
+    width: var(--tile-image-width);
+    min-height: var(--tile-image-width);
+    object-fit:cover;
+}   
 
 
 .video {
@@ -198,6 +248,7 @@ table {
 .description {
 	padding: 15px;
 	width: auto;
+	min-height: 400px;
 }
 
 .btn-link {
@@ -216,7 +267,6 @@ table {
 .subheading {
 	/* padding: 5px; */
 	white-space: nowrap;
-	padding-bottom:10px;
 }
 
 
@@ -229,7 +279,7 @@ table {
 /* Tooltip text */
 .tool-tip .tooltiptext {
   visibility: hidden;
-  min-width: 200px;
+  min-width: var(--tile-image-width);
   background-color: black;
   color: var(--normal-color);
   /* Position the tooltip text - see examples below! */
@@ -241,3 +291,5 @@ table {
 .tool-tip:hover .tooltiptext {
   visibility: visible;
 }
+
+

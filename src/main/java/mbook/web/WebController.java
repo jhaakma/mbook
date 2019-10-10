@@ -1,5 +1,7 @@
 package mbook.web;
 
+import java.util.logging.Logger;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +11,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.WebRequest;
 
+import lombok.extern.slf4j.Slf4j;
 import mbook.character.GameCharacter;
 import mbook.character.GameCharacterService;
 import mbook.user.User;
@@ -19,6 +23,7 @@ import mbook.user.UserService;
 import mbook.video.Video;
 import mbook.video.VideoService;
 
+@Slf4j
 @Controller
 public class WebController extends AbstractWebController {
 
@@ -40,6 +45,7 @@ public class WebController extends AbstractWebController {
     @GetMapping("/")
     public String home(  Model model  ) {
         model.addAttribute("list", gameCharacterService.getTopScoringCharacters(10));
+        model.addAttribute("users", userService.getUsers());
         return "index";
     }
     
@@ -72,6 +78,7 @@ public class WebController extends AbstractWebController {
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
         model.addAttribute("adminMessage", "Admins only");
+        
         return "dashboard";
     }
     
@@ -114,5 +121,22 @@ public class WebController extends AbstractWebController {
         return "userProfile";
     }
     
-
+    @GetMapping("/upload/{characterName}")
+    public String test(
+            @PathVariable String characterName,
+            Model model
+    ) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByUsername(auth.getName());
+        GameCharacter gameCharacter = gameCharacterService.findCharacterByOwnerAndName(user, characterName);
+        
+        if ( gameCharacter != null ) {
+            model.addAttribute("characterName", gameCharacter.getName());
+            return "test";
+        } else {
+            log.info("Non game Character");
+        }
+        return "index";
+        
+    }
 }

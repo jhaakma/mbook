@@ -5,15 +5,28 @@
         <title th:text="#{home.title}"></title>
     </head>
 	<body>
-	<div layout:fragment="content">
-        <div id="main-content">
+	<div layout:fragment="sidebar">
+            <h4 th:text="|#{users.title}:|"></h4>
+            <ul>
+                <th:block th:each="user,i : ${users}">
+                    <li>
+                       <a th:href="|\userlist?user=${user.username}|" 
+                       th:text="${user.username}"></a>
+                    </li>
+                </th:block>
+            </ul>
+    </div>
+	
+	
+	<th:block layout:fragment="content">
+        <div class="thin-border scroll-box content">
 	       <h1 th:text="#{splash.header}"></h1>
 	       <!-- <a th:text="#{splash.sub}"></a> -->
 	       <div th:insert="fragments/characterTiles.html 
                     :: showTiles(list=${list})"
            ></div>
 	    </div>
-	</div>
+	</th:block>
 
 	</body>
 </html>

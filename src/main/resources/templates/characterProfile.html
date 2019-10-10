@@ -31,17 +31,17 @@
 						th:text="${owner.username}"></a>
 				</span>
 
-				<div th:insert="fragments/description.html 
+				<th:block th:if="${character.bio}" th:insert="fragments/description.html 
 				    :: showDescription(title=#{character.bio}, 
 				    description=${character.bio})"
-				></div>
+				></th:block>
 
 			</div>
 
 			
 			<div class="col-auto">
 				<table style=" width:100%;"><tr>
-					<td valign="top" class="thin-border" style="border-right:0">
+					<td valign="top" class="sidebar thin-border" style="border-right:0">
 						<div class="thin-border profile-img-container">
 							<img class="profile-img" th:src="${character.profileImage}">
 						</div>
@@ -59,12 +59,12 @@
                                :: showStat(title='Class', value=${character.className}, headerColor=true)">
                             </tr>
 						</table>
-						<div class="thin-border divider"></div>
+						<div class="divider"></div>
 						<div
 								th:insert="fragments/statList.html
 		                  :: showStats(table=${character.attributes})"></div>
 					</td>
-					<td valign="top" class="thin-border" 
+					<td valign="top" class="sidebar thin-border" 
 						th:insert="fragments/classInfo.html 
 	                  :: showClassInfo(character=${character})"></td>
 				</tr></table>
