@@ -26,6 +26,10 @@
     cursor:pointer;
 }
 
+.btn:hover {
+	color: inherit;
+	
+}
 
 
 .hide {
@@ -33,6 +37,11 @@
 }
 
 img {
-	height: -webkit-fill-available;
+	width: var(--profile-image-width);
     max-width: 100%;
+}
+
+.img-result {
+	width: var(--profile-image-width);
+	height: var(--profile-image-width);
 }

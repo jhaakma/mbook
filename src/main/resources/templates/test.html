@@ -22,22 +22,23 @@
             </div>
             <!-- save btn -->
             <button class="thin-border btn save hide">Preview</button>
-            <!-- download btn -->
-            <a href="" class="thin-border btn download hide">Save</a>
+            
         </div>
         
 		<main class="row">
 		    
 		    <!-- leftbox -->
-		    <div class="col thin-border crop-box">
+		    <div class="col-6 thin-border crop-box">
                 <div class="result"></div>
 		    </div>
 		    
 		    <!--rightbox-->
-		    <div class="col thin-border crop-box">
+		    <div class="col-auto thin-border crop-box">
 			    <div class="img-result">
 	                <!-- result of crop -->
-	                <img class="cropped" src="/images/default.png" alt="">
+	                <img class="thin-border profile-img-container cropped" src="/images/default.png" alt="">
+	                <!-- download btn -->
+            <a href="" class="thin-border btn download hide">Save</a>
 	            </div>
 		    </div>
 		    
@@ -108,10 +109,18 @@
 		    var userName = "[[${currentUser.username}]]";
 		    var charName = "[[${characterName}]]"
 		    dwn.download = userName + '_' + charName +'.png';
-		    dwn.setAttribute('href',imgSrc);
+		    
+		    
 		  });
 
-
+	      dwn.addEventListener('click',(e)=>{
+	          var userName = "[[${currentUser.username}]]";
+	          var charName = "[[${characterName}]]"
+	          var fileName = userName + '_' + charName +'.png';
+	          var baseurl = window.location.origin+window.location.pathname;
+	          var uploadURL = baseurl + '/api/profile-image/character/[[${characterName}]]'
+	          dwn.setAttribute('href', imgSrc);
+	      });
 		  
 		  </script>
       </div>
